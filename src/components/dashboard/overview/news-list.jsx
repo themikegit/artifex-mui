@@ -20,10 +20,10 @@ import { DotsThree as DotsThreeIcon } from '@phosphor-icons/react/dist/ssr/DotsT
 
 import { dayjs } from '@/lib/dayjs';
 
-export function NewsList({ messages }) {
+export function NewsList({ news }) {
   return (
     <Card>
-      <CardHeader
+      {/* <CardHeader
         action={
           <IconButton>
             <DotsThreeIcon weight="bold" />
@@ -35,7 +35,8 @@ export function NewsList({ messages }) {
           </Avatar>
         }
         title="Local news"
-      />
+      /> */}
+
       <List
         disablePadding
         sx={{
@@ -51,8 +52,8 @@ export function NewsList({ messages }) {
           },
         }}
       >
-        {messages.map((message) => (
-          <ListItem disablePadding key={message.id}>
+        {news.map((article) => (
+          <ListItem disablePadding>
             <ListItemButton>
               {/* <ListItemAvatar>
                 {message.author.status === 'online' ? (
@@ -67,17 +68,17 @@ export function NewsList({ messages }) {
                 disableTypography
                 primary={
                   <Typography noWrap variant="subtitle2">
-                    {message.author.name}
+                    {article.headline}
                   </Typography>
                 }
                 secondary={
                   <Typography color="text.secondary" noWrap variant="body2">
-                    {message.content}
+                    {article.summary}
                   </Typography>
                 }
               />
               <Typography color="text.secondary" sx={{ whiteSpace: 'nowrap' }} variant="caption">
-                {dayjs(message.createdAt).fromNow()}
+                {dayjs(article.date).fromNow()}
               </Typography>
             </ListItemButton>
           </ListItem>

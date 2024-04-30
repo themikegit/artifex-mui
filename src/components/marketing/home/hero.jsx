@@ -65,15 +65,13 @@ export function Hero() {
         <Stack spacing={4}>
           <Stack spacing={2}>
             <Typography sx={{ fontSize: '3.5rem', fontWeight: 600, lineHeight: 1.2, textAlign: 'center' }}>
-              Focus on development, leave{' '}
+              Transforming Cities Worldwide with{' '}
               <Typography color="primary.main" component="span" variant="inherit">
-                User Experience
+                Localized AI Solutions
               </Typography>{' '}
-              to us.
             </Typography>
             <Typography color="neutral.300" sx={{ fontWeight: 400, textAlign: 'center' }} variant="h5">
-              Premium template designed to accelerate app development with a stunning design and powerful pre-built
-              Material UI components.
+              Local Decisions, Global Consequences
             </Typography>
           </Stack>
           <Stack direction="row" spacing={2} sx={{ justifyContent: 'center' }}>

@@ -48,7 +48,7 @@ export function UserPopover({ anchorEl, onClose, open }) {
       </Box>
       <Divider />
       <List sx={{ p: 1 }}>
-        <MenuItem component={RouterLink} href={paths.dashboard.settings.account} onClick={onClose}>
+        {/* <MenuItem component={RouterLink} href={paths.dashboard.settings.account} onClick={onClose}>
           <ListItemIcon>
             <UserIcon />
           </ListItemIcon>
@@ -65,7 +65,7 @@ export function UserPopover({ anchorEl, onClose, open }) {
             <CreditCardIcon />
           </ListItemIcon>
           Billing
-        </MenuItem>
+        </MenuItem> */}
       </List>
       <Divider />
       <Box sx={{ p: 1 }}>

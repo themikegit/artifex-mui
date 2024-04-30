@@ -22,50 +22,7 @@ import { PostCard } from '@/components/dashboard/blog/post-card';
 
 const metadata = { title: `List | Blog | Dashboard | ${config.site.name}` };
 
-const posts = [
-  {
-    id: 'POST-004',
-    title: 'Building a Design System from Scratch',
-    description: 'Learn how to build a design system from scratch using Figma and React that scales.',
-    cover: '/assets/image-business-2.png',
-    category: 'Programming',
-    author: { name: 'Iulia Albu', avatar: '/assets/avatar-6.png' },
-    readTime: '5 min',
-    publishedAt: dayjs().subtract(45, 'minute').toDate(),
-  },
-  {
-    id: 'POST-003',
-    title: 'Passive Income Ideas for Designers',
-    description: 'Explore the best passive income ideas for designers and how to get started.',
-    cover: '/assets/image-abstract-2.png',
-    category: 'Productivity',
-    author: { name: 'Omar Darobe', avatar: '/assets/avatar-11.png' },
-    readTime: '6 min',
-    publishedAt: dayjs().subtract(51, 'minute').subtract(6, 'hour').toDate(),
-  },
-  {
-    id: 'POST-002',
-    title: 'Five Ways to Improve Your Workspace',
-    description: 'Discover the five ways to improve your workspace and increase your productivity.',
-    cover: '/assets/image-minimal-2.png',
-    category: 'Entrepreneurs',
-    author: { name: 'Siegbert Gottfried', avatar: '/assets/avatar-2.png' },
-    readTime: '3 min',
-    publishedAt: dayjs().subtract(46, 'minute').subtract(16, 'hour').toDate(),
-  },
-  {
-    id: 'POST-001',
-    title: 'How to Create a Productivity Dashboard',
-    description: 'Learn how to create a productivity dashboard using Google Cloud and Supabase for your team.',
-    cover: '/assets/image-business-1.png',
-    category: 'Innovation',
-    author: { name: 'Jie Yan', avatar: '/assets/avatar-8.png' },
-    readTime: '1 min',
-    publishedAt: dayjs().subtract(39, 'minute').subtract(7, 'hour').subtract(5, 'day').toDate(),
-  },
-];
-
-export function ArticlesGrid() {
+export function ArticlesGrid({ articles }) {
   return (
     <React.Fragment>
       <Box
@@ -88,11 +45,54 @@ export function ArticlesGrid() {
           </Stack>
           <Divider />
           <Grid container spacing={4}>
-            {posts.map((post) => (
-              <Grid key={post.title} md={6} xs={12}>
-                <PostCard post={post} />
-              </Grid>
-            ))}
+            <Grid key={'house'} md={6} xs={12}>
+              <PostCard
+                post={{
+                  title: 'Population Dynamics Summary',
+                  content: articles.population_dynamics,
+                  source: 'n/a',
+                  readTime: '2min',
+                  category: 'population',
+                  media: 'assets/population.png',
+                }}
+              />
+            </Grid>
+            <Grid key={'eco'} md={6} xs={12}>
+              <PostCard
+                post={{
+                  title: 'Ecological Consideration',
+                  content: articles.ecological_considerations,
+                  source: 'n/a',
+                  readTime: '2min',
+                  category: 'eco',
+                  media: 'assets/eco.png',
+                }}
+              />
+            </Grid>
+            <Grid key={'house'} md={6} xs={12}>
+              <PostCard
+                post={{
+                  title: 'Housing Market Chalenges',
+                  content: articles.housing_market_challenges,
+                  source: 'n/a',
+                  readTime: '2min',
+                  category: 'eco',
+                  media: 'assets/housing.png',
+                }}
+              />
+            </Grid>
+            <Grid key={'house'} md={6} xs={12}>
+              <PostCard
+                post={{
+                  title: 'Regulatory Landscape',
+                  content: articles.regulatory_landscape,
+                  source: 'n/a',
+                  readTime: '2min',
+                  category: 'eco',
+                  media: 'assets/landscape.png',
+                }}
+              />
+            </Grid>
           </Grid>
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center', justifyContent: 'center' }}>
             <Button disabled startIcon={<ArrowLeftIcon />}>

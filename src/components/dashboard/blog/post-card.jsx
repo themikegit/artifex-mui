@@ -17,9 +17,9 @@ export function PostCard({ post }) {
     <Card>
       <CardMedia
         component={RouterLink}
-        href={paths.dashboard.blog.details('1')}
-        image={post.cover}
-        sx={{ height: '280px' }}
+        // href={paths.dashboard.blog.details('1')}
+        image={post.media}
+        sx={{ height: '100px' }}
       />
       <CardContent>
         <Stack spacing={2}>
@@ -27,14 +27,14 @@ export function PostCard({ post }) {
             <Chip label={post.category} />
           </div>
           <div>
-            <Link color="text.primary" component={RouterLink} href={paths.dashboard.blog.details('1')} variant="h5">
+            <Link color="text.primary" variant="h5">
               {post.title}
             </Link>
           </div>
           <Typography
             color="text.secondary"
             sx={{
-              height: '48px',
+              height: '300px',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               WebkitBoxOrient: 'vertical',
@@ -42,16 +42,16 @@ export function PostCard({ post }) {
             }}
             variant="body1"
           >
-            {post.description}
+            {post.content}
           </Typography>
           <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-            <Avatar src={post.author.avatar} />
+            {/* <Avatar src={post.author.avatar} /> */}
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flex: '1 1 auto', flexWrap: 'wrap' }}>
               <Typography sx={{ flex: '1 1 auto' }} variant="subtitle2">
-                By {post.author.name} • {dayjs(post.publishedAt).format('MMM D, YYYY')}
+                By {post.source} • {dayjs(post.date).format('MMM D, YYYY')}
               </Typography>
               <Typography color="text.secondary" sx={{ whiteSpace: 'nowrap' }} variant="body2">
-                {post.readTime} read
+                {/* {post.readTime} read */}
               </Typography>
             </Stack>
           </Stack>

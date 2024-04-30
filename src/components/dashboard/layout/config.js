@@ -19,7 +19,7 @@ export const layoutConfig = {
         {
           key: 'core',
           title: 'Assessement',
-          href: paths.dashboard.core,
+          href: paths.dashboard.assessment,
           icon: 'receipt',
           //  items: [{ key: 'invoices', title: 'Tax-Sim tool', href: paths.dashboard.invoices.list }],
         },

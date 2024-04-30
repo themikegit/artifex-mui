@@ -9,7 +9,6 @@ import { Layout as SettingsLayout } from '@/components/dashboard/settings/layout
 import { Layout as SocialProfileLayout } from '@/components/dashboard/social/profile-layout';
 
 export const route = {
-  path: 'dashboard',
   element: (
     <DashboardLayout>
       <Outlet />
@@ -17,6 +16,7 @@ export const route = {
   ),
   children: [
     {
+      path: 'dashboard',
       index: true,
       lazy: async () => {
         const { Page } = await import('@/pages/dashboard/overview');
@@ -24,9 +24,10 @@ export const route = {
       },
     },
     {
-      path: 'core',
+      path: 'assessment',
+
       lazy: async () => {
-        const { Page } = await import('@/pages/dashboard/core');
+        const { Page } = await import('@/pages/dashboard/assessment');
         return { Component: Page };
       },
     },

@@ -17,11 +17,22 @@ import { SettingsButton } from '@/components/core/settings/settings-button';
 import { ThemeProvider } from '@/components/core/theme-provider/theme-provider';
 import { Toaster } from '@/components/core/toaster';
 
+import { CityProvider } from './contexts/selected-city';
+
 const metadata = { title: config.site.name };
 
 export function Root({ children }) {
   const settings = React.useRef(applyDefaultSettings(getPersistedSettings()));
-
+  const initialCity = {
+    name: 'Mashpee',
+    code: 'MA',
+    min_lat: '41.620202743089294',
+    min_lon: '-70.51879547119142',
+    max_lat: '41.67978348076019',
+    max_lon: '-70.44120452880827',
+    ini_lon: '-70.48',
+    ini_lat: '41.65',
+  };
   return (
     <HelmetProvider>
       <Helmet>
@@ -29,19 +40,21 @@ export function Root({ children }) {
         <title>{metadata.title}</title>
       </Helmet>
       <Analytics>
-        <LocalizationProvider>
-          <UserProvider>
-            <SettingsProvider settings={settings.current}>
-              <I18nProvider language="en">
-                <ThemeProvider>
-                  {children}
-                  <SettingsButton />
-                  <Toaster position="bottom-right" />
-                </ThemeProvider>
-              </I18nProvider>
-            </SettingsProvider>
-          </UserProvider>
-        </LocalizationProvider>
+        <CityProvider selectedCity={initialCity}>
+          <LocalizationProvider>
+            <UserProvider>
+              <SettingsProvider settings={settings.current}>
+                <I18nProvider language="en">
+                  <ThemeProvider>
+                    {children}
+                    <SettingsButton />
+                    <Toaster position="bottom-right" />
+                  </ThemeProvider>
+                </I18nProvider>
+              </SettingsProvider>
+            </UserProvider>
+          </LocalizationProvider>
+        </CityProvider>
       </Analytics>
     </HelmetProvider>
   );

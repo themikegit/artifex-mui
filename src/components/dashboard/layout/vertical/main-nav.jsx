@@ -70,13 +70,13 @@ export function MainNav({ items }) {
             sx={{ alignItems: 'center', flex: '1 1 auto', justifyContent: 'flex-end' }}
           >
             <NotificationsButton />
-            <ContactsButton />
+            {/* <ContactsButton /> */}
             <Divider
               flexItem
               orientation="vertical"
               sx={{ borderColor: 'var(--MainNav-divider)', display: { xs: 'none', lg: 'block' } }}
             />
-            <LanguageSwitch />
+            {/* <LanguageSwitch /> */}
             <UserButton />
           </Stack>
         </Box>

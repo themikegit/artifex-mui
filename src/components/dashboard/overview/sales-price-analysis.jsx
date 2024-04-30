@@ -16,28 +16,12 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { NoSsr } from '@/components/core/no-ssr';
 import { Chart2 } from '@/components/widgets/charts/chart-2';
 
-const data = [
-  { name: 'Jan', value: 10 },
-  { name: 'Feb', value: 5 },
-  { name: 'Mar', value: 11 },
-  { name: 'Apr', value: 20 },
-  { name: 'May', value: 13 },
-  { name: 'Jun', value: 28 },
-  { name: 'Jul', value: 18 },
-  { name: 'Aug', value: 4 },
-  { name: 'Sep', value: 13 },
-  { name: 'Oct', value: 12 },
-  { name: 'Nov', value: 13 },
-  { name: 'Dec', value: 5 },
-  { name: 'Jan', value: 10 },
-];
-
 const bars = [
   { name: 'This year', dataKey: 'v1', color: 'var(--mui-palette-primary-400)' },
   { name: 'Last year', dataKey: 'v2', color: 'var(--mui-palette-primary-600)' },
 ];
 
-export function SalesPriceAanalysis() {
+export function SalesPriceAanalysis({ data }) {
   const color = 'var(--mui-palette-primary-main)';
   const chartHeight = 240;
 
@@ -73,15 +57,15 @@ export function SalesPriceAanalysis() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="2 4" vertical={false} />
-                  <XAxis axisLine={false} dataKey="name" tickLine={false} type="category" />
-                  <YAxis axisLine={false} domain={[0, 30]} tickLine={false} type="number" />
+                  <XAxis axisLine={false} dataKey="year" tickLine={false} type="category" />
+                  <YAxis axisLine={false} domain={[0, 1000000]} tickLine={false} type="number" />
                   <Area
-                    animationDuration={300}
-                    dataKey="value"
+                    animationDuration={1000}
+                    dataKey="avg_sale_price"
                     dot={<Dot />}
                     fill="url(#area-performance)"
                     fillOpacity={1}
-                    name="Performance"
+                    name="Price"
                     stroke={color}
                     strokeWidth={3}
                     type="natural"
@@ -98,20 +82,20 @@ export function SalesPriceAanalysis() {
   );
 }
 
-// function Legend() {
-//   return (
-//     <Stack direction="row" spacing={2}>
-//       {bars.map((bar) => (
-//         <Stack direction="row" key={bar.name} spacing={1} sx={{ alignItems: 'center' }}>
-//           <Box sx={{ bgcolor: bar.color, borderRadius: '2px', height: '4px', width: '16px' }} />
-//           <Typography color="text.secondary" variant="caption">
-//             {bar.name}
-//           </Typography>
-//         </Stack>
-//       ))}
-//     </Stack>
-//   );
-// }
+function Legend() {
+  return (
+    <Stack direction="row" spacing={2}>
+      {bars.map((bar) => (
+        <Stack direction="row" key={bar.name} spacing={1} sx={{ alignItems: 'center' }}>
+          <Box sx={{ bgcolor: bar.color, borderRadius: '2px', height: '4px', width: '16px' }} />
+          <Typography color="text.secondary" variant="caption">
+            {bar.name}
+          </Typography>
+        </Stack>
+      ))}
+    </Stack>
+  );
+}
 
 function Dot({ active, cx, cy, payload, stroke }) {
   if (active && payload?.name === active) {

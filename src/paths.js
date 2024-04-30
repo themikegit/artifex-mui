@@ -53,7 +53,7 @@ export const paths = {
   },
   dashboard: {
     overview: '/dashboard',
-    core: '/dashboard/core',
+    assessment: '/assessment',
     settings: {
       account: '/dashboard/settings/account',
       billing: '/dashboard/settings/billing',
