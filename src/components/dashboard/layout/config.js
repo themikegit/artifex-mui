@@ -6,10 +6,13 @@ export const layoutConfig = {
       key: 'dashboards',
       title: 'Dashboard',
       items: [
-        { key: 'overview', title: 'Overview', href: paths.dashboard.overview, icon: 'house' },
-        // { key: 'analytics', title: 'Analytics', href: paths.dashboard.analytics, icon: 'chart-pie' },
-        // { key: 'ecommerce', title: 'E-commerce', href: paths.dashboard.eCommerce, icon: 'cube' },
-        // { key: 'crypto', title: 'Crypto', href: paths.dashboard.crypto, icon: 'currency-eth' },
+        {
+          key: 'overview',
+          title: 'Overview',
+          href: paths.dashboard.overview.main,
+          icon: 'house',
+          matcher: { type: 'startsWith', href: '/dashboard' },
+        },
       ],
     },
     {
@@ -19,16 +22,17 @@ export const layoutConfig = {
         {
           key: 'core',
           title: 'Assessement',
-          href: paths.dashboard.assessment,
+          href: paths.dashboard.assessment.main,
+          matcher: { type: 'startsWith', href: '/assessment' },
           icon: 'receipt',
           //  items: [{ key: 'invoices', title: 'Tax-Sim tool', href: paths.dashboard.invoices.list }],
         },
         {
           key: 'settings',
           title: 'Case Search',
-          href: paths.dashboard.academy.browse,
+          href: paths.dashboard.caseSearch,
           icon: 'gear',
-          matcher: { type: 'startsWith', href: '/dashboard/settings' },
+          // matcher: { type: 'startsWith', href: '/dashboard/settings' },
         },
         {
           key: 'customers',

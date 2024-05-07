@@ -4,24 +4,23 @@ import type { ControlPosition, MapRef } from 'react-map-gl';
 
 type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {
   position?: ControlPosition;
-
-  onCreate?: (evt: { features: object[] }) => void;
-  onUpdate?: (evt: { features: object[]; action: string }) => void;
-  onDelete?: (evt: { features: object[] }) => void;
+  onCreate?: (evt: MapboxDraw.DrawCreateEvent) => void;
+  onUpdate?: (evt: MapboxDraw.DrawUpdateEvent) => void;
+  onDelete?: (evt: MapboxDraw.DrawDeleteEvent) => void;
 };
 
-export default function DrawControl(props: DrawControlProps) {
-  useControl<MapboxDraw>(
+const DrawControl: React.FC<DrawControlProps> = (props: DrawControlProps) => {
+  useControl(
     () => new MapboxDraw(props),
     ({ map }: { map: MapRef }) => {
-      map.on('draw.create', props.onCreate);
-      map.on('draw.update', props.onUpdate);
-      map.on('draw.delete', props.onDelete);
+      map.on('draw.create', (e) => props.onCreate && props.onCreate(e));
+      map.on('draw.update', (e) => props.onUpdate && props.onUpdate(e));
+      map.on('draw.delete', (e) => props.onDelete && props.onDelete(e));
     },
     ({ map }: { map: MapRef }) => {
-      map.off('draw.create', props.onCreate);
-      map.off('draw.update', props.onUpdate);
-      map.off('draw.delete', props.onDelete);
+      map.off('draw.create', (e) => props.onCreate && props.onCreate(e));
+      map.off('draw.update', (e) => props.onUpdate && props.onUpdate(e));
+      map.off('draw.delete', (e) => props.onDelete && props.onDelete(e));
     },
     {
       position: props.position,
@@ -29,10 +28,6 @@ export default function DrawControl(props: DrawControlProps) {
   );
 
   return null;
-}
-
-DrawControl.defaultProps = {
-  onCreate: () => {},
-  onUpdate: () => {},
-  onDelete: () => {},
 };
+
+export default DrawControl;

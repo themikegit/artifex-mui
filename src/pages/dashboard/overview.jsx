@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { LinearProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -16,6 +17,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { config } from '@/config';
 import { dayjs } from '@/lib/dayjs';
+import { GenDataContext } from '@/contexts/generic-data';
 import { AppLimits } from '@/components/dashboard/overview/app-limits';
 import { ArticlesGrid } from '@/components/dashboard/overview/articles-grid';
 import { CounterWidget } from '@/components/dashboard/overview/counter-widget';
@@ -27,14 +29,16 @@ import { SalesPriceAanalysis } from '@/components/dashboard/overview/sales-price
 const metadata = { title: `Overview | Dashboard | ${config.site.name}` };
 
 export function Page() {
+  const { setgenericDataContext } = React.useContext(GenDataContext);
+
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
+  ///take from context
   const params = 'town=mashpee&state=ma&country=usa';
 
   const [townProfile, setTownProfile] = React.useState(null);
   const [localNews, setLocalNews] = React.useState(null);
   const [townSummary, setTownSummary] = React.useState(null);
   const [townSales, setTownSales] = React.useState(null);
-
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -54,10 +58,50 @@ export function Page() {
 
         setTownProfile(tProfile);
         setLocalNews(locNews);
-        setTownSummary(tSumm);
+        ///prepare news articles
+        const transformedNews = [
+          {
+            slug: 'population_dynamics',
+            title: 'Population Dynamics Summary',
+            content: tSumm.population_dynamics,
+            source: 'n/a',
+            readTime: '2min',
+            category: 'population',
+            media: 'assets/population.png',
+          },
+          {
+            slug: 'ecological_considerations',
+            title: 'Ecological Consideration',
+            content: tSumm.ecological_considerations,
+            source: 'n/a',
+            readTime: '2min',
+            category: 'eco',
+            media: 'assets/eco.png',
+          },
+          {
+            slug: 'housing_market_challenges',
+            title: 'Housing Market Challenges',
+            content: tSumm.housing_market_challenges,
+            source: 'n/a',
+            readTime: '2min',
+            category: 'eco',
+            media: 'assets/housing.png',
+          },
+          {
+            slug: 'regulatory_landscape',
+            title: 'Regulatory Landscape',
+            content: tSumm.regulatory_landscape,
+            source: 'n/a',
+            readTime: '2min',
+            category: 'eco',
+            media: 'assets/landscape.png',
+          },
+        ];
+        setTownSummary(transformedNews);
         setTownSales(tSales);
-
         setIsLoading(false);
+        ///set context
+        setgenericDataContext(transformedNews);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -67,7 +111,7 @@ export function Page() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <LinearProgress />;
   }
 
   return (

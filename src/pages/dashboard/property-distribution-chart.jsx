@@ -17,13 +17,25 @@ import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-export function Devices({ data, title, currency = false }) {
+export function PropertyDistributionChart({ data, title, currency = false }) {
   const chartSize = 200;
   const chartTickness = 30;
 
   return (
     <Card>
-      <CardHeader title={title} />
+      <CardHeader
+        // action={
+        //   <IconButton>
+        //     <DotsThreeIcon weight="bold" />
+        //   </IconButton>
+        // }
+        // avatar={
+        //   <Avatar>
+        //     <DevicesIcon fontSize="var(--Icon-fontSize)" />
+        //   </Avatar>
+        // }
+        title={title}
+      />
       <CardContent>
         <Stack divider={<Divider />} spacing={3}>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -48,30 +60,35 @@ export function Devices({ data, title, currency = false }) {
               </PieChart>
             </NoSsr>
           </Box>
-          <Box sx={{ display: 'grid', gap: 3, gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))' }}>
-            {data?.map((entry) => (
-              <div key={entry.name}>
-                <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                  <Box sx={{ bgcolor: entry.color, borderRadius: '2px', height: '4px', width: '16px' }} />
-                  <Typography variant="body2">{entry.name}</Typography>
-                </Stack>
-                <Typography variant="h5">
-                  {currency
-                    ? new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        maximumFractionDigits: 0,
-                        currency: 'USD',
-                      }).format(entry.value)
-                    : new Intl.NumberFormat('en-US', { style: 'percent', maximumFractionDigits: 2 }).format(
-                        entry.value / 100
-                      )}
-                </Typography>
-              </div>
-            ))}
-          </Box>
+          <Legend payload={{ data, currency }} />
         </Stack>
       </CardContent>
     </Card>
+  );
+}
+
+function Legend({ payload, currency }) {
+  console.log(payload);
+  return (
+    <Box
+      sx={{
+        display: 'grid',
+        gap: 3,
+        gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+        height: '60px',
+        overflow: 'scroll',
+      }}
+    >
+      {payload?.data.map((entry) => (
+        <div key={entry.name}>
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+            <Box sx={{ bgcolor: entry.color, borderRadius: '2px', height: '4px', width: '16px' }} />
+            <Typography variant="body2">{entry.name}</Typography>
+          </Stack>
+          <Typography variant="h5">{entry.value}</Typography>
+        </div>
+      ))}
+    </Box>
   );
 }
 

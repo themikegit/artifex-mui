@@ -17,6 +17,7 @@ import { SettingsButton } from '@/components/core/settings/settings-button';
 import { ThemeProvider } from '@/components/core/theme-provider/theme-provider';
 import { Toaster } from '@/components/core/toaster';
 
+import { GenDataProvider } from './contexts/generic-data';
 import { CityProvider } from './contexts/selected-city';
 
 const metadata = { title: config.site.name };
@@ -26,10 +27,10 @@ export function Root({ children }) {
   const initialCity = {
     name: 'Mashpee',
     code: 'MA',
-    min_lat: '41.620202743089294',
-    min_lon: '-70.51879547119142',
-    max_lat: '41.67978348076019',
-    max_lon: '-70.44120452880827',
+    min_lat: '41.619400689006284',
+    min_lon: '-70.51634929657037',
+    max_lat: '41.6805847834184',
+    max_lon: '-70.4436507034303',
     ini_lon: '-70.48',
     ini_lat: '41.65',
   };
@@ -41,19 +42,21 @@ export function Root({ children }) {
       </Helmet>
       <Analytics>
         <CityProvider selectedCity={initialCity}>
-          <LocalizationProvider>
-            <UserProvider>
-              <SettingsProvider settings={settings.current}>
-                <I18nProvider language="en">
-                  <ThemeProvider>
-                    {children}
-                    <SettingsButton />
-                    <Toaster position="bottom-right" />
-                  </ThemeProvider>
-                </I18nProvider>
-              </SettingsProvider>
-            </UserProvider>
-          </LocalizationProvider>
+          <GenDataProvider>
+            <LocalizationProvider>
+              <UserProvider>
+                <SettingsProvider settings={settings.current}>
+                  <I18nProvider language="en">
+                    <ThemeProvider>
+                      {children}
+                      <SettingsButton />
+                      <Toaster position="bottom-right" />
+                    </ThemeProvider>
+                  </I18nProvider>
+                </SettingsProvider>
+              </UserProvider>
+            </LocalizationProvider>
+          </GenDataProvider>
         </CityProvider>
       </Analytics>
     </HelmetProvider>

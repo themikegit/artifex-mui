@@ -17,27 +17,49 @@ export const route = {
   children: [
     {
       path: 'dashboard',
-      index: true,
-      lazy: async () => {
-        const { Page } = await import('@/pages/dashboard/overview');
-        return { Component: Page };
-      },
-    },
-    {
-      path: 'assessment',
-
-      lazy: async () => {
-        const { Page } = await import('@/pages/dashboard/assessment');
-        return { Component: Page };
-      },
-    },
-    {
-      path: 'academy',
       children: [
         {
           index: true,
           lazy: async () => {
-            const { Page } = await import('@/pages/dashboard/academy/browse');
+            const { Page } = await import('@/pages/dashboard/overview');
+            return { Component: Page };
+          },
+        },
+        {
+          path: 'details/:newsSlug',
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/details');
+            return { Component: Page };
+          },
+        },
+      ],
+    },
+    {
+      path: 'assessment',
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/assessment');
+            return { Component: Page };
+          },
+        },
+        {
+          path: 'details',
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/analytics');
+            return { Component: Page };
+          },
+        },
+      ],
+    },
+    {
+      path: 'case-search',
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/case-search');
             return { Component: Page };
           },
         },
@@ -84,7 +106,7 @@ export const route = {
         {
           path: ':postId',
           lazy: async () => {
-            const { Page } = await import('@/pages/dashboard/blog/details');
+            const { Page } = await import('@/pages/dashboard/details');
             return { Component: Page };
           },
         },

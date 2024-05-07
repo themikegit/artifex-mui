@@ -53,7 +53,7 @@ export function NewsList({ news }) {
         }}
       >
         {news.map((article) => (
-          <ListItem disablePadding>
+          <ListItem key={article.headline} disablePadding>
             <ListItemButton>
               {/* <ListItemAvatar>
                 {message.author.status === 'online' ? (

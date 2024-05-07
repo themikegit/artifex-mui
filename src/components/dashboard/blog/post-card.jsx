@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 
 import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
+import { GenDataContext } from '@/contexts/generic-data';
 import { RouterLink } from '@/components/core/link';
 
 export function PostCard({ post }) {
@@ -17,7 +18,7 @@ export function PostCard({ post }) {
     <Card>
       <CardMedia
         component={RouterLink}
-        // href={paths.dashboard.blog.details('1')}
+        href={paths.dashboard.overview.details(post.slug)}
         image={post.media}
         sx={{ height: '100px' }}
       />
@@ -34,7 +35,7 @@ export function PostCard({ post }) {
           <Typography
             color="text.secondary"
             sx={{
-              height: '300px',
+              height: '260px',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               WebkitBoxOrient: 'vertical',

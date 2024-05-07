@@ -11,7 +11,7 @@ import { CoursesFilters } from '@/components/dashboard/academy/courses-filters';
 import { DailyProgress } from '@/components/dashboard/academy/daily-progress';
 import { Help } from '@/components/dashboard/academy/help';
 
-const metadata = { title: `Browse | Academy | ${config.site.name}` };
+const metadata = { title: `Case Search  | ${config.site.name}` };
 
 const courses = [
   {

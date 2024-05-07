@@ -17,21 +17,14 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-const countries = {
-  ca: { name: 'Canada', flag: '/assets/flag-ca.svg' },
-  de: { name: 'Germany', flag: '/assets/flag-de.svg' },
-  ru: { name: 'Russia', flag: '/assets/flag-ru.svg' },
-  uk: { name: 'United Kingdom', flag: '/assets/flag-uk.svg' },
-  us: { name: 'United States', flag: '/assets/flag-us.svg' },
-};
-
-const bars = [
-  { name: 'Sessions', dataKey: 'v1', color: 'var(--mui-palette-primary-main)' },
-  { name: 'Bounce rate', dataKey: 'v2', color: 'var(--mui-palette-primary-100)' },
-];
+// const bars = [
+//   { name: 'Primary', dataKey: 'name', color: 'var(--mui-palette-primary-main)' },
+//   { name: 'Non-Primary', dataKey: 'name', color: 'var(--mui-palette-primary-100)' },
+// ];
 
 export function CountrySessionsVsBounce({ data }) {
-  const chartHeight = 300;
+  const chartHeight = 90;
+  console.log(data);
 
   return (
     <Card>
@@ -46,27 +39,36 @@ export function CountrySessionsVsBounce({ data }) {
             <ChartPieIcon fontSize="var(--Icon-fontSize)" />
           </Avatar>
         }
-        title="Sessions vs bounce rate by country"
+        title="Residence Breakdown"
       />
       <CardContent>
-        <Stack divider={<Divider />} spacing={3}>
+        <Stack>
           <NoSsr fallback={<Box sx={{ height: `${chartHeight}px` }} />}>
             <ResponsiveContainer height={chartHeight}>
-              <BarChart barGap={10} data={data} layout="vertical" margin={{ top: 0, right: 0, bottom: 0, left: 100 }}>
+              <BarChart barGap={10} data={data} layout="vertical">
                 <CartesianGrid horizontal={false} strokeDasharray="2 4" syncWithTicks />
                 <XAxis axisLine={false} tickLine={false} type="number" />
-                <YAxis axisLine={false} dataKey="name" tick={<Tick />} tickLine={false} type="category" />
-                {bars.map((bar) => (
+                <YAxis axisLine={false} dataKey="name" tickLine={false} type="category" />
+                <Bar
+                  animationDuration={300}
+                  barSize={12}
+                  dataKey="value"
+                  fill="var(--mui-palette-primary-main)"
+                  key="name"
+                  name="name"
+                  radius={[5, 5, 5, 5]}
+                />
+                {/* {data.map((bar) => (
                   <Bar
                     animationDuration={300}
                     barSize={12}
-                    dataKey={bar.dataKey}
-                    fill={bar.color}
+                    dataKey="value"
+                    fill="var(--mui-palette-primary-main)"
                     key={bar.name}
                     name={bar.name}
                     radius={[5, 5, 5, 5]}
                   />
-                ))}
+                ))} */}
                 <Tooltip animationDuration={50} content={<TooltipContent />} cursor={false} />
               </BarChart>
             </ResponsiveContainer>
@@ -78,34 +80,34 @@ export function CountrySessionsVsBounce({ data }) {
   );
 }
 
-function Tick({ height, payload, width, x, y }) {
-  const { name, flag } = countries[payload?.value] ?? { name: 'Unknown', flag: '' };
+// function Tick({ height, payload, width, x, y }) {
+//   const { name, flag } = countries[payload?.value] ?? { name: 'Unknown', flag: '' };
 
-  return (
-    <foreignObject height={width} width={height} x={(x ?? 0) - 150} y={(y ?? 0) - 16}>
-      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-        <Box sx={{ height: '1rem', width: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Box alt={name} component="img" src={flag} sx={{ height: 'auto', width: '100%' }} />
-        </Box>
-        <Typography noWrap variant="body2">
-          {name}
-        </Typography>
-      </Stack>
-    </foreignObject>
-  );
-}
+//   return (
+//     <foreignObject height={width} width={height} x={(x ?? 0) - 150} y={(y ?? 0) - 16}>
+//       <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+//         <Box sx={{ height: '1rem', width: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+//           <Box alt={name} component="img" src={flag} sx={{ height: 'auto', width: '100%' }} />
+//         </Box>
+//         <Typography noWrap variant="body2">
+//           {name}
+//         </Typography>
+//       </Stack>
+//     </foreignObject>
+//   );
+// }
 
 function Legend() {
   return (
     <Stack direction="row" spacing={2}>
-      {bars.map((bar) => (
+      {/* {bars.map((bar) => (
         <Stack direction="row" key={bar.name} spacing={1} sx={{ alignItems: 'center' }}>
           <Box sx={{ bgcolor: bar.color, borderRadius: '2px', height: '4px', width: '16px' }} />
           <Typography color="text.secondary" variant="caption">
             {bar.name}
           </Typography>
         </Stack>
-      ))}
+      ))} */}
     </Stack>
   );
 }

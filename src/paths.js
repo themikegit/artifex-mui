@@ -52,8 +52,15 @@ export const paths = {
     },
   },
   dashboard: {
-    overview: '/dashboard',
-    assessment: '/assessment',
+    overview: {
+      main: '/dashboard',
+      details: (newsSlug) => `/dashboard/details/${newsSlug}`,
+    },
+    assessment: {
+      main: '/assessment',
+      details: (name) => `/assessment/details/${name}`,
+    },
+    caseSearch: '/case-search',
     settings: {
       account: '/dashboard/settings/account',
       billing: '/dashboard/settings/billing',

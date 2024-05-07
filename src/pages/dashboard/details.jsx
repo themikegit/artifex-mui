@@ -10,11 +10,14 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { ArrowLeft as ArrowLeftIcon } from '@phosphor-icons/react/dist/ssr/ArrowLeft';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
 
 import { config } from '@/config';
 import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
+import { GenDataContext } from '@/contexts/generic-data';
 import { BreadcrumbsSeparator } from '@/components/core/breadcrumbs-separator';
 import { RouterLink } from '@/components/core/link';
 import { CommentAdd } from '@/components/dashboard/blog/comment-add';
@@ -67,6 +70,12 @@ const comments = [
 ];
 
 export function Page() {
+  const { genericData } = React.useContext(GenDataContext);
+  const { newsSlug } = useParams();
+
+  const article = genericData.find((item) => item.slug === newsSlug);
+  console.log(article);
+
   return (
     <React.Fragment>
       <Helmet>
@@ -80,8 +89,20 @@ export function Page() {
           width: 'var(--Content-width)',
         }}
       >
-        <Stack spacing={8}>
-          <Stack spacing={1}>
+        <Stack spacing={5}>
+          <div>
+            <Link
+              color="text.primary"
+              component={RouterLink}
+              href={paths.dashboard.overview.main}
+              sx={{ alignItems: 'center', display: 'inline-flex', gap: 1 }}
+              variant="subtitle2"
+            >
+              <ArrowLeftIcon fontSize="var(--icon-fontSize-md)" />
+              Overview
+            </Link>
+          </div>
+          {/* <Stack spacing={1}>
             <Typography variant="h4">Post</Typography>
             <Breadcrumbs separator={<BreadcrumbsSeparator />}>
               <Link color="text.primary" component={RouterLink} href={paths.dashboard.overview} variant="subtitle2">
@@ -94,8 +115,8 @@ export function Page() {
                 Details
               </Typography>
             </Breadcrumbs>
-          </Stack>
-          <Card
+          </Stack> */}
+          {/* <Card
             sx={{
               alignItems: 'center',
               borderRadius: 1,
@@ -110,18 +131,18 @@ export function Page() {
             <Button component={RouterLink} href={paths.dashboard.blog.create} variant="contained">
               Edit post
             </Button>
-          </Card>
+          </Card> */}
           <Stack spacing={3}>
-            <div>
+            {/* <div>
               <Chip label="Programming" />
-            </div>
+            </div> */}
             <Stack spacing={2}>
-              <Typography variant="h3">How to Create a Productivity Dashboard</Typography>
-              <Typography color="text.secondary" variant="subtitle1">
+              <Typography variant="h3"> {article.title} </Typography>
+              {/* <Typography color="text.secondary" variant="subtitle1">
                 Learn how to create a productivity dashboard using Google Cloud and Supabase for your team.
-              </Typography>
+              </Typography> */}
             </Stack>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+            {/* <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
               <Avatar src="/assets/avatar-8.png" />
               <div>
                 <Typography variant="subtitle2">
@@ -132,10 +153,10 @@ export function Page() {
                   5 min read
                 </Typography>
               </div>
-            </Stack>
+            </Stack> */}
             <Box
               sx={{
-                backgroundImage: 'url(/assets/image-business-2.png)',
+                backgroundImage: `url(/${article.media})`,
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 borderRadius: 1,
@@ -143,18 +164,18 @@ export function Page() {
               }}
             />
             <Container>
-              <Content content={content} />
+              <Content content={article.content} />
             </Container>
-            <Divider />
-            <Stack spacing={2}>
+            {/* <Divider /> */}
+            {/* <Stack spacing={2}>
               {comments.map((comment) => (
                 <CommentBox comment={comment} key={comment.id} />
               ))}
-            </Stack>
-            <Divider />
-            <CommentAdd />
+            </Stack> */}
+            {/* <Divider /> */}
+            {/* <CommentAdd /> */}
           </Stack>
-          <Newsletter />
+          {/* <Newsletter /> */}
         </Stack>
       </Box>
     </React.Fragment>

@@ -17,11 +17,6 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-const bars = [
-  { name: 'Sessions', dataKey: 'v1', color: 'var(--mui-palette-primary-main)' },
-  { name: 'Bounce rate', dataKey: 'v2', color: 'var(--mui-palette-primary-100)' },
-];
-
 export function ChannelSessionsVsBounce({ data }) {
   const chartHeight = 300;
 
@@ -38,7 +33,7 @@ export function ChannelSessionsVsBounce({ data }) {
             <ShareNetworkIcon fontSize="var(--Icon-fontSize)" />
           </Avatar>
         }
-        title="Sessions vs bounce rate by channel"
+        title="Total Assessment by year"
       />
       <CardContent>
         <Stack divider={<Divider />} spacing={3}>
@@ -46,42 +41,38 @@ export function ChannelSessionsVsBounce({ data }) {
             <ResponsiveContainer height={chartHeight}>
               <BarChart barGap={12} data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                 <CartesianGrid strokeDasharray="2 4" vertical={false} />
-                <XAxis axisLine={false} dataKey="name" tickLine={false} type="category" />
-                <YAxis axisLine={false} hide type="number" />
-                {bars.map((bar) => (
-                  <Bar
-                    animationDuration={300}
-                    barSize={24}
-                    dataKey={bar.dataKey}
-                    fill={bar.color}
-                    key={bar.name}
-                    name={bar.name}
-                    radius={[5, 5, 0, 0]}
-                  />
-                ))}
+                <XAxis axisLine={false} dataKey="tax_year" tickLine={false} type="category" />
+                <YAxis />
+
+                <Bar
+                  animationDuration={300}
+                  barSize={24}
+                  dataKey="total_assessment"
+                  fill="var(--mui-palette-primary-main)"
+                  key="tax_year"
+                  name="tax_year"
+                  radius={[5, 5, 0, 0]}
+                />
+
                 <Tooltip animationDuration={50} content={<TooltipContent />} cursor={false} />
               </BarChart>
             </ResponsiveContainer>
           </NoSsr>
-          <Legend />
+          {/* <Stack direction="row" spacing={2}>
+            {data.map((bar) => (
+              <Stack direction="row" key={bar.name} spacing={1} sx={{ alignItems: 'center' }}>
+                <Box
+                  sx={{ bgcolor: 'var(--mui-palette-primary-main)', borderRadius: '2px', height: '4px', width: '16px' }}
+                />
+                <Typography color="text.secondary" variant="caption">
+                  {bar.name}
+                </Typography>
+              </Stack>
+            ))}
+          </Stack> */}
         </Stack>
       </CardContent>
     </Card>
-  );
-}
-
-function Legend() {
-  return (
-    <Stack direction="row" spacing={2}>
-      {bars.map((bar) => (
-        <Stack direction="row" key={bar.name} spacing={1} sx={{ alignItems: 'center' }}>
-          <Box sx={{ bgcolor: bar.color, borderRadius: '2px', height: '4px', width: '16px' }} />
-          <Typography color="text.secondary" variant="caption">
-            {bar.name}
-          </Typography>
-        </Stack>
-      ))}
-    </Stack>
   );
 }
 
