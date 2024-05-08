@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { TableContainer } from '@mui/material';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
@@ -45,14 +46,16 @@ const columns = [
 export function PropertiesTable({ rows = [] }) {
   return (
     <React.Fragment>
-      <DataTable columns={columns} rows={rows} />
-      {!rows.length ? (
-        <Box sx={{ p: 3 }}>
-          <Typography color="text.secondary" sx={{ textAlign: 'center' }} variant="body2">
-            No products found
-          </Typography>
-        </Box>
-      ) : null}
+      <TableContainer sx={{ maxHeight: 540 }}>
+        <DataTable stickyHeader columns={columns} rows={rows} />
+        {!rows.length ? (
+          <Box sx={{ p: 3 }}>
+            <Typography color="text.secondary" sx={{ textAlign: 'center' }} variant="body2">
+              No products found
+            </Typography>
+          </Box>
+        ) : null}
+      </TableContainer>
     </React.Fragment>
   );
 }

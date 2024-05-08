@@ -10,19 +10,21 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ArrowRight as ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowRight';
 import { Clock as ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
+import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
 
 import { paths } from '@/paths';
 import { RouterLink } from '@/components/core/link';
 
-export function CourseCard({ course }) {
+export function CourseCard({ document }) {
+  console.log(document);
   return (
     <Card variant="outlined">
-      <CardMedia
+      {/* <CardMedia
         component={RouterLink}
         href={paths.dashboard.academy.details('1')}
-        image={course.media}
-        sx={{ height: '180px' }}
-      />
+         image={course.media}
+        sx={{ height: '80px' }}
+      /> */}
       <CardContent>
         <Stack spacing={1}>
           <Link
@@ -32,28 +34,23 @@ export function CourseCard({ course }) {
             underline="none"
             variant="subtitle1"
           >
-            {course.title}
+            {document.fileName}
           </Link>
           <Typography color="text.secondary" variant="body2">
-            {course.description}
+            {/* {course.description} */}
           </Typography>
-          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+          {/* <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <ClockIcon fontSize="var(--icon-fontSize-sm)" />
             <Typography color="text.secondary" variant="caption">
               {course.duration}
             </Typography>
-          </Stack>
+          </Stack> */}
         </Stack>
       </CardContent>
-      <LinearProgress value={course.progress} variant="determinate" />
+      {/* <LinearProgress value={course.progress} variant="determinate" /> */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-        <Button
-          color="secondary"
-          component={RouterLink}
-          endIcon={<ArrowRightIcon />}
-          href={paths.dashboard.academy.details('1')}
-        >
-          Continue
+        <Button color="secondary" component={RouterLink} endIcon={<DownloadIcon />}>
+          href={document.fileUrl}
         </Button>
       </Box>
     </Card>

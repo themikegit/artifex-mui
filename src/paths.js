@@ -61,6 +61,7 @@ export const paths = {
       details: (name) => `/assessment/details/${name}`,
     },
     caseSearch: '/case-search',
+    documentDiscovery: '/document-discovery',
     settings: {
       account: '/dashboard/settings/account',
       billing: '/dashboard/settings/billing',

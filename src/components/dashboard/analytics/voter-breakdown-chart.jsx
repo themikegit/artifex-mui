@@ -22,7 +22,7 @@ import { NoSsr } from '@/components/core/no-ssr';
 //   { name: 'Non-Primary', dataKey: 'name', color: 'var(--mui-palette-primary-100)' },
 // ];
 
-export function CountrySessionsVsBounce({ data }) {
+export function VoterBreakdownChart({ data }) {
   const chartHeight = 90;
   console.log(data);
 

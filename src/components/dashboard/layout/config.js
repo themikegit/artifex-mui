@@ -31,12 +31,14 @@ export const layoutConfig = {
           key: 'settings',
           title: 'Case Search',
           href: paths.dashboard.caseSearch,
+          disabled: true,
           icon: 'gear',
           // matcher: { type: 'startsWith', href: '/dashboard/settings' },
         },
         {
           key: 'customers',
           title: 'Document Discovery',
+          href: paths.dashboard.documentDiscovery,
           icon: 'users',
         },
         {

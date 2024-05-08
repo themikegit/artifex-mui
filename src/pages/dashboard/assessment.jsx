@@ -22,7 +22,7 @@ export function Page() {
   const [boundary, setBoundary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [initialMapView, setInitialmapView] = useState(null);
-
+  const [open, setOpen] = useState(false);
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
 
   const { selectedCity } = React.useContext(CityContext);
@@ -99,12 +99,12 @@ export function Page() {
     if (features && features.length > 0) {
       const drawnPolygonGeometry = features[0].geometry;
       setmapCoorContext(drawnPolygonGeometry);
+      setOpen(true);
       // navigate('/assessment/details');
     }
   }, []);
 
   const onDelete = useCallback((e) => {
-    console.log('delete');
     setmapCoorContext(null);
     // setFeatures((currFeatures) => {
     //   const newFeatures = { ...currFeatures };
@@ -114,8 +114,6 @@ export function Page() {
     //   return newFeatures;
     // });
   }, []);
-
-  const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -127,7 +125,6 @@ export function Page() {
         <title>{metadata.title}</title>
       </Helmet>
       <div>
-        <Button onClick={toggleDrawer(true)}>Open drawer</Button>
         <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
           <BoundaryAnalytics />
         </Drawer>

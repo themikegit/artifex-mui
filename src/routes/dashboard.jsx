@@ -73,6 +73,25 @@ export const route = {
       ],
     },
     {
+      path: 'document-discovery',
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/document-discovery');
+            return { Component: Page };
+          },
+        },
+        // {
+        //   path: 'courses/:courseId',
+        //   lazy: async () => {
+        //     const { Page } = await import('@/pages/dashboard/academy/courses/details');
+        //     return { Component: Page };
+        //   },
+        // },
+      ],
+    },
+    {
       path: 'analytics',
       lazy: async () => {
         const { Page } = await import('@/pages/dashboard/analytics');

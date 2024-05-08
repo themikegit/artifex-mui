@@ -17,7 +17,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-export function ChannelSessionsVsBounce({ data }) {
+export function TaxesChart({ data }) {
   const chartHeight = 300;
 
   return (

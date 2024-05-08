@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CardHeader } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -24,6 +25,19 @@ export function Summary({ data }) {
   });
   return (
     <Card>
+      <CardHeader
+        // action={
+        //   <IconButton>
+        //     <DotsThreeIcon weight="bold" />
+        //   </IconButton>
+        // }
+        // avatar={
+        //   <Avatar>
+        //     <ShareNetworkIcon fontSize="var(--Icon-fontSize)" />
+        //   </Avatar>
+        // }
+        title="Property Age Distribution"
+      />
       <Box
         sx={{
           display: 'grid',

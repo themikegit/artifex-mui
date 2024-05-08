@@ -17,7 +17,7 @@ import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-export function Devices({ data, title, currency = false }) {
+export function DonutChart({ data, title, currency = false }) {
   const chartSize = 200;
   const chartTickness = 30;
 

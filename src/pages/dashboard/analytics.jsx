@@ -1,14 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LinearProgress, Skeleton } from '@mui/material';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
-import { ArrowLeft as ArrowLeftIcon } from '@phosphor-icons/react/dist/ssr/ArrowLeft';
 import { CalendarBlank as CalendarIcon } from '@phosphor-icons/react/dist/ssr/CalendarBlank';
 import { House as HouseIcon } from '@phosphor-icons/react/dist/ssr/House';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Tag as TagIcon } from '@phosphor-icons/react/dist/ssr/Tag';
 import bbox from '@turf/bbox';
 import { Helmet } from 'react-helmet-async';
@@ -17,10 +14,10 @@ import { config } from '@/config';
 import { paths } from '@/paths';
 import { GenDataContext } from '@/contexts/generic-data';
 import { RouterLink } from '@/components/core/link';
-import { ChannelSessionsVsBounce } from '@/components/dashboard/analytics/channel-sessions-vs-bounce-rate';
-import { CountrySessionsVsBounce } from '@/components/dashboard/analytics/country-sessions-vs-bounce-rate';
-import { Devices } from '@/components/dashboard/analytics/devices';
+import { DonutChart } from '@/components/dashboard/analytics/devices';
 import { Summary } from '@/components/dashboard/analytics/summary';
+import { TaxesChart } from '@/components/dashboard/analytics/taxes-chart';
+import { VoterBreakdownChart } from '@/components/dashboard/analytics/voter-breakdown-chart';
 import { CounterWidget } from '@/components/dashboard/overview/counter-widget';
 
 import { PropertiesTable } from './properties-table';
@@ -196,8 +193,8 @@ export function BoundaryAnalytics() {
           maxWidth: 'var(--Content-maxWidth)',
           m: 'var(--Content-margin)',
           p: 'var(--Content-padding)',
-          width: 'var(--Content-width)',
         }}
+        style={{ width: '75vw', padding: '25px' }}
       >
         <Stack sx={{ marginTop: '40px' }}>
           <Skeleton variant="rounded" width={200} height={30} />
@@ -241,7 +238,7 @@ export function BoundaryAnalytics() {
         <title>{metadata.title}</title>
       </Helmet>
       <Box
-        style={{ width: '80vw', padding: '25px' }}
+        style={{ width: '75vw', padding: '25px', marginTop: '20px' }}
         sx={{
           maxWidth: 'var(--Content-maxWidth)',
           m: 'var(--Content-margin)',
@@ -262,7 +259,7 @@ export function BoundaryAnalytics() {
             </Link>
           </div> */}
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ alignItems: 'flex-start' }}>
-            <Box sx={{ flex: '1 1 auto' }}>
+            <Box sx={{ flex: '1 1 auto', marginBottom: '25px' }}>
               <Typography variant="h4">Boundary Analytics</Typography>
             </Box>
             {/* <div>
@@ -300,33 +297,39 @@ export function BoundaryAnalytics() {
             </Grid>
             <Grid md={4} xs={12}>
               {avgAge && (
-                <CounterWidget amount={avgAge} diff={5} icon={CalendarIcon} title="Average Age" trend="down" />
+                <CounterWidget
+                  amount={Math.floor(avgAge)}
+                  diff={5}
+                  icon={CalendarIcon}
+                  title="Average Age"
+                  trend="down"
+                />
               )}
             </Grid>
             <Grid xs={12}>{yearsBuilt && <Summary data={yearsBuilt} />}</Grid>
             <Grid lg={3} xs={6}>
               {avgAssessmentComparasion && (
-                <Devices currency={true} title="Average Assessment Comparasion" data={avgAssessmentComparasion} />
+                <DonutChart currency={true} title="Average Assessment Comparasion" data={avgAssessmentComparasion} />
               )}
             </Grid>
             <Grid lg={3} xs={6}>
               {cumulativeAssessmentBreakDown && (
-                <Devices title="Cumulative Assessment Breakdown" data={cumulativeAssessmentBreakDown} />
+                <DonutChart title="Cumulative Assessment Breakdown" data={cumulativeAssessmentBreakDown} />
               )}
             </Grid>
             <Grid lg={3} xs={6}>
-              {lotRatio && <Devices title="Residence Type Land Utilization" data={lotRatio} />}
+              {lotRatio && <DonutChart title="Residence Type Land Utilization" data={lotRatio} />}
             </Grid>
             <Grid lg={3} xs={6}>
               {propertiesType && <PropertyDistributionChart title="Property Type Distribution" data={propertiesType} />}
             </Grid>
+            <Grid lg={6} xs={12}>
+              <TaxesChart data={taxes} />
+            </Grid>
+            <Grid lg={6} xs={12}>
+              {voterBreakdown && <VoterBreakdownChart data={voterBreakdown} />}
+            </Grid>
 
-            <Grid lg={6} xs={12}>
-              {voterBreakdown && <CountrySessionsVsBounce data={voterBreakdown} />}
-            </Grid>
-            <Grid lg={6} xs={12}>
-              <ChannelSessionsVsBounce data={taxes} />
-            </Grid>
             <Grid lg={12} xs={12}>
               {properties && <PropertiesTable rows={properties.results} />}
             </Grid>

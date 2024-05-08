@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, FormControl, InputLabel, OutlinedInput, Select } from '@mui/material';
+import { Button, Card, FormControl, InputLabel, LinearProgress, OutlinedInput, Select } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -14,13 +14,14 @@ import { CoursesFilters } from '@/components/dashboard/academy/courses-filters';
 import { DailyProgress } from '@/components/dashboard/academy/daily-progress';
 import { Help } from '@/components/dashboard/academy/help';
 
-const metadata = { title: `Case Search  | ${config.site.name}` };
+const metadata = { title: `Document Discovery  | ${config.site.name}` };
 
 export function Page() {
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
   const [documents, setDocuments] = useState(null);
   const [selectedTown, setselectedTown] = useState(null);
   const [serchKeywords, setserchKeywords] = useState(null);
+  const [isLoading, setisLoading] = useState(null);
 
   const locations = [
     { city: 'tulsa', state: 'ok', country: 'usa', label: 'Tulsa, OK' },
@@ -50,6 +51,7 @@ export function Page() {
   };
 
   const getDocuments = () => {
+    setisLoading(true);
     fetch(
       `${baseUrl}get-town-website/?city=${selectedTown.city}&state=${selectedTown.state}&country=${selectedTown.country}`
     )
@@ -81,6 +83,7 @@ export function Page() {
         return response.json();
       })
       .then((data) => {
+        setisLoading(false);
         setDocuments(data.file_info);
       })
       .catch((error) => {
@@ -93,6 +96,7 @@ export function Page() {
       <Helmet>
         <title>{metadata.title}</title>
       </Helmet>
+      {isLoading && <LinearProgress />}
       <Box
         sx={{
           maxWidth: 'var(--Content-maxWidth)',
@@ -140,11 +144,18 @@ export function Page() {
                       fullWidth
                       name="query"
                       placeholder="Keywords"
+                      required
                     />
                   </FormControl>
                   <FormControl sx={{ maxWidth: '100%', width: '240px' }}>
                     <InputLabel>Town</InputLabel>
-                    <Select onChange={($event) => handleSelect($event)} defaultValue="" fullWidth name="category">
+                    <Select
+                      required={true}
+                      onChange={($event) => handleSelect($event)}
+                      defaultValue=""
+                      fullWidth
+                      name="category"
+                    >
                       {locations.map((l, index) => (
                         <Option key={index} value={`${l.city}`}>
                           {l.label}
@@ -162,7 +173,13 @@ export function Page() {
                     </Select>
                   </FormControl> */}
 
-                  <Button onClick={getDocuments} startIcon={<MagnifyingGlassIcon />} variant="contained">
+                  <Button
+                    disabled={isLoading}
+                    onClick={getDocuments}
+                    startIcon={<MagnifyingGlassIcon />}
+                    variant="contained"
+                    color="primary"
+                  >
                     Search
                   </Button>
                 </Stack>
