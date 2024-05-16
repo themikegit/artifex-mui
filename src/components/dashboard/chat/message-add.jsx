@@ -21,18 +21,14 @@ export function MessageAdd({ disabled = false, onSend }) {
   const [content, setContent] = React.useState('');
   const fileInputRef = React.useRef(null);
 
-  const handleAttach = React.useCallback(() => {
-    fileInputRef.current?.click();
-  }, []);
-
   const handleChange = React.useCallback((event) => {
     setContent(event.target.value);
   }, []);
 
   const handleSend = React.useCallback(() => {
-    if (!content) {
-      return;
-    }
+    // if (!å) {
+    //   return;
+    // }
 
     onSend?.('text', content);
     setContent('');
@@ -54,7 +50,7 @@ export function MessageAdd({ disabled = false, onSend }) {
         disabled={disabled}
         onChange={handleChange}
         onKeyUp={handleKeyUp}
-        placeholder="Leave a message"
+        placeholder="Ask Artie"
         sx={{ flex: '1 1 auto' }}
         value={content}
       />
@@ -75,22 +71,6 @@ export function MessageAdd({ disabled = false, onSend }) {
             </IconButton>
           </span>
         </Tooltip>
-        <Stack direction="row" spacing={1} sx={{ display: { xs: 'none', sm: 'flex' } }}>
-          <Tooltip title="Attach photo">
-            <span>
-              <IconButton disabled={disabled} edge="end" onClick={handleAttach}>
-                <CameraIcon />
-              </IconButton>
-            </span>
-          </Tooltip>
-          <Tooltip title="Attach file">
-            <span>
-              <IconButton disabled={disabled} edge="end" onClick={handleAttach}>
-                <PaperclipIcon />
-              </IconButton>
-            </span>
-          </Tooltip>
-        </Stack>
       </Stack>
       <input hidden ref={fileInputRef} type="file" />
     </Stack>

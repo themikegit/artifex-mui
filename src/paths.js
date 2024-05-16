@@ -62,6 +62,10 @@ export const paths = {
     },
     caseSearch: '/case-search',
     documentDiscovery: '/document-discovery',
+    leadGen: {
+      main: '/lead-gen',
+      details: (videoId) => `/lead-gen/${videoId}`,
+    },
     settings: {
       account: '/dashboard/settings/account',
       billing: '/dashboard/settings/billing',

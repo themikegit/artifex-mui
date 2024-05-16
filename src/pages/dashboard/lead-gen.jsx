@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -15,6 +15,8 @@ import { CustomersFilters } from '@/components/dashboard/customer/customers-filt
 import { CustomersPagination } from '@/components/dashboard/customer/customers-pagination';
 import { CustomersSelectionProvider } from '@/components/dashboard/customer/customers-selection-context';
 import { CustomersTable } from '@/components/dashboard/customer/customers-table';
+
+import { SepticTable } from './septic-table';
 
 const metadata = { title: `List | Customers | Dashboard | ${config.site.name}` };
 
@@ -73,9 +75,45 @@ const customers = [
 
 export function Page() {
   const { email, phone, sortDir, status } = useExtractSearchParams();
-
   const sortedCustomers = applySort(customers, sortDir);
   const filteredCustomers = applyFilters(sortedCustomers, { email, phone, status });
+
+  const baseUrl = import.meta.env.VITE_SERVER_HOST;
+  const [septicLead, setsepticLeads] = useState(null);
+
+  useEffect(() => {
+    fetch(`${baseUrl}septic-leads/`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const transfromed = data.results.map((o) => ({ ...o.fields }));
+        setsepticLeads(transfromed);
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }, []);
+
+  // const getSepticLead = () => {
+  //   fetch(`${baseUrl}septic-leads/`)
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setsepticLeads(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('There was a problem with the fetch operation:', error);
+  //     });
+  // };
 
   return (
     <React.Fragment>
@@ -91,7 +129,7 @@ export function Page() {
         }}
       >
         <Stack spacing={4}>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ alignItems: 'flex-start' }}>
+          {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ alignItems: 'flex-start' }}>
             <Box sx={{ flex: '1 1 auto' }}>
               <Typography variant="h4">Customers</Typography>
             </Box>
@@ -100,16 +138,14 @@ export function Page() {
                 Add
               </Button>
             </Box>
-          </Stack>
+          </Stack> */}
           <CustomersSelectionProvider customers={filteredCustomers}>
             <Card>
-              <CustomersFilters filters={{ email, phone, status }} sortDir={sortDir} />
+              {/* <CustomersFilters filters={{ email, phone, status }} sortDir={sortDir} /> */}
               <Divider />
-              <Box sx={{ overflowX: 'auto' }}>
-                <CustomersTable rows={filteredCustomers} />
-              </Box>
+              <Box sx={{ overflowX: 'auto' }}>{septicLead && <SepticTable rows={septicLead} />}</Box>
               <Divider />
-              <CustomersPagination count={filteredCustomers.length + 100} page={0} />
+              {/* <CustomersPagination count={filteredCustomers.length + 100} page={0} /> */}
             </Card>
           </CustomersSelectionProvider>
         </Stack>

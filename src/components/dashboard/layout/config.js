@@ -7,7 +7,6 @@ export const layoutConfig = {
       title: 'Dashboard',
       items: [
         {
-          key: 'overview',
           title: 'Overview',
           href: paths.dashboard.overview.main,
           icon: 'house',
@@ -31,7 +30,6 @@ export const layoutConfig = {
           key: 'settings',
           title: 'Case Search',
           href: paths.dashboard.caseSearch,
-          disabled: true,
           icon: 'gear',
           // matcher: { type: 'startsWith', href: '/dashboard/settings' },
         },
@@ -42,9 +40,11 @@ export const layoutConfig = {
           icon: 'users',
         },
         {
-          key: 'products',
+          key: 'lead_gen',
           title: 'Lead Gen',
           icon: 'shopping-bag-open',
+          href: paths.dashboard.leadGen.main,
+          matcher: { type: 'startsWith', href: '/lead-gen' },
         },
         {
           key: 'orders',

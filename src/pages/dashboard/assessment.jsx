@@ -1,9 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LinearProgress } from '@mui/material';
+import { LinearProgress, SpeedDial, SpeedDialAction, SpeedDialIcon, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
+import { HouseSimple as HouseSimpleIcon } from '@phosphor-icons/react/dist/ssr/HouseSimple';
+import { PaperPlaneTilt as PaperPlaneTiltIcon } from '@phosphor-icons/react/dist/ssr/PaperPlaneTilt';
+import { StackSimple as StackSimpleIcon } from '@phosphor-icons/react/dist/ssr/StackSimple';
+import { TreeEvergreen as TreeEvergreenIcon } from '@phosphor-icons/react/dist/ssr/TreeEvergreen';
 import { Helmet } from 'react-helmet-async';
-import Map, { FullscreenControl, Layer, Marker, NavigationControl, ScaleControl, Source } from 'react-map-gl';
+import Map, {
+  FullscreenControl,
+  Layer,
+  Marker,
+  NavigationControl,
+  ScaleControl,
+  Source,
+  useControl,
+} from 'react-map-gl';
 import { useNavigate } from 'react-router-dom';
 
 import { config } from '@/config';
@@ -12,68 +24,151 @@ import { CityContext } from '@/contexts/selected-city';
 
 import { BoundaryAnalytics } from './analytics';
 import DrawControl from './draw-control';
+import Pin from './pin';
+import { WellsData } from './wells-data';
 
 const metadata = { title: `Crypto | Dashboard | ${config.site.name}` };
+
+// @todo set layer icon to env or properties. this is for speed dial, so user knows what soruce is used
 
 export function Page() {
   const mapRef = useRef();
   const navigate = useNavigate();
   const [locations, setLocations] = useState(null);
   const [boundary, setBoundary] = useState(null);
+  const [wells, setwells] = useState(null);
+  const [wellsData, setwellsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [initialMapView, setInitialmapView] = useState(null);
+  const [sourceType, setsourceType] = useState('Properties');
+  const [mapContext, setmapContext] = useState();
   const [open, setOpen] = useState(false);
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
 
   const { selectedCity } = React.useContext(CityContext);
   const { setmapCoorContext, mapCoor } = React.useContext(GenDataContext);
 
-  const onMapLoad = useCallback(() => {
-    const storedProperties = JSON.parse(localStorage.getItem('properties'));
-    const storedBounds = JSON.parse(localStorage.getItem('bounds'));
+  const getPropertiesMapSource = () => {
+    setLoading(true);
+    const bounds = mapRef.current.getBounds();
+    const propertiesPromise = fetch(
+      `${baseUrl}properties/?north=${bounds._ne.lat}&south=${bounds._sw.lat}&east=${bounds._ne.lng}&west=${bounds._sw.lng}`
+    ).then((res) => res.json());
+    const boundsPromise = fetch(
+      `${baseUrl}get-geojson/?min_lat=${bounds._sw.lat}&min_lon=${bounds._sw.lng}&max_lat=${bounds._ne.lat}&max_lon=${bounds._ne.lng}`
+    ).then((res) => res.json());
+    Promise.all([propertiesPromise, boundsPromise])
+      .then(([propertiesData, boundsData]) => {
+        let geojsonFeatures = {
+          type: 'FeatureCollection',
+          features: propertiesData.results.map((property) => ({
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [property.longitude, property.latitude],
+            },
+            properties: {
+              title: property.street_address,
+              totalAssessment: property.total_assessment,
+            },
+          })),
+        };
+        setLocations(geojsonFeatures);
+        setBoundary(boundsData);
+        setLoading(false);
 
-    if (storedProperties && storedBounds) {
-      setLocations(storedProperties.locations);
-      setBoundary(storedBounds);
-      setLoading(false);
-    } else {
-      const bounds = mapRef.current.getBounds();
+        localStorage.setItem('properties', JSON.stringify({ locations: geojsonFeatures }));
+        localStorage.setItem('bounds', JSON.stringify(boundsData));
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  };
 
-      const propertiesPromise = fetch(
-        `${baseUrl}properties/?north=${bounds._ne.lat}&south=${bounds._sw.lat}&east=${bounds._ne.lng}&west=${bounds._sw.lng}`
-      ).then((res) => res.json());
+  const getEnvironmentalMapSource = () => {
+    setLoading(true);
+    const bounds = mapRef.current.getBounds();
+    fetch(
+      `${baseUrl}get-well-data/?min_lat=${bounds._sw.lat}&min_lon=${bounds._sw.lng}&max_lat=${bounds._ne.lat}&max_lon=${bounds._ne.lng}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setwells(JSON.parse(data));
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  };
 
-      const boundsPromise = fetch(
-        `${baseUrl}get-geojson/?min_lat=${bounds._sw.lat}&min_lon=${bounds._sw.lng}&max_lat=${bounds._ne.lat}&max_lon=${bounds._ne.lng}`
-      ).then((res) => res.json());
+  const handleViewportChange = (e) => {
+    console.log(e);
+    console.log(mapContext);
+    if (e.type === 'moveend') {
+      switch (mapContext) {
+        case 'Properties':
+          getPropertiesMapSource();
+          break;
 
-      Promise.all([propertiesPromise, boundsPromise])
-        .then(([propertiesData, boundsData]) => {
-          let geojsonFeatures = {
-            type: 'FeatureCollection',
-            features: propertiesData.results.map((property) => ({
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [property.longitude, property.latitude],
-              },
-              properties: {
-                title: property.street_address,
-                totalAssessment: property.total_assessment,
-              },
-            })),
-          };
-          setLocations(geojsonFeatures);
-          setBoundary(boundsData);
-          setLoading(false);
-
-          localStorage.setItem('properties', JSON.stringify({ locations: geojsonFeatures }));
-          localStorage.setItem('bounds', JSON.stringify(boundsData));
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
+        case 'Environmental':
+          getEnvironmentalMapSource();
+          break;
+      }
     }
+  };
+
+  useEffect(() => {
+    setInitialmapView({
+      latitude: selectedCity.ini_lat,
+      longitude: selectedCity.ini_lon,
+      zoom: 13,
+    });
+  }, []);
+
+  const getMapSource = (action) => {
+    setmapContext(action);
+    switch (action) {
+      case 'Properties':
+        mapRef.current?.flyTo({ center: [selectedCity.ini_lon, selectedCity.ini_lat], duration: 3000, zoom: 13 });
+        setInitialmapView({
+          latitude: selectedCity.ini_lat,
+          longitude: selectedCity.ini_lon,
+          zoom: 13,
+        });
+        break;
+      case 'Environmental':
+        mapRef.current?.flyTo({ center: [-71.37861397956105, 42.251256798606114], duration: 3000, zoom: 13 });
+        setInitialmapView({
+          latitude: 42.251256798606114,
+          longitude: -71.37861397956105,
+          zoom: 13,
+        });
+        // getEnvironmentalMapSource();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const actions = [
+    { icon: <HouseSimpleIcon />, name: 'Properties' },
+    { icon: <TreeEvergreenIcon />, name: 'Environmental' },
+  ];
+
+  const wellInfo = (wells, well) => {
+    setOpen(true);
+    console.log(well);
+    const wellsData = wells.filter((w) => w.fields.address_id === well.fields.address_id);
+    setwellsData(wellsData);
+  };
+
+  const onMapLoad = useCallback(() => {
+    getPropertiesMapSource();
   }, []);
 
   const onClick = useCallback((event) => {
@@ -83,16 +178,6 @@ export function Page() {
       window.alert(`Clicked layer ${feature.layer.id}`); // eslint-disable-line no-alert
     }
   }, []);
-
-  useEffect(() => {
-    setInitialmapView({
-      latitude: selectedCity.ini_lat,
-      longitude: selectedCity.ini_lon,
-      zoom: 12,
-    });
-
-    mapRef.current?.flyTo({ center: [selectedCity.ini_lon, selectedCity.ini_lat], duration: 5000 });
-  }, [selectedCity]);
 
   const onUpdate = useCallback(({ features }) => {
     console.log('update');
@@ -126,14 +211,31 @@ export function Page() {
       </Helmet>
       <div>
         <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
-          <BoundaryAnalytics />
+          {mapContext === 'Properties' && <BoundaryAnalytics />}
+          {mapContext === 'Environmental' && <WellsData data={wellsData} />}
         </Drawer>
       </div>
-      <div style={{ width: '85vw', height: '95vh' }}>
+      <div style={{ width: '100vw', height: '95vh' }}>
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: 'absolute', top: 80, right: 16 }}
+          direction="down"
+          icon={<StackSimpleIcon fontSize="var(--icon-fontSize-lg)" />}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              onClick={() => getMapSource(action.name)}
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+            />
+          ))}
+        </SpeedDial>
         {loading && <LinearProgress />}
         {initialMapView && (
           <Map
             onClick={onClick}
+            onMoveEnd={(e) => handleViewportChange(e)}
             ref={mapRef}
             initialViewState={initialMapView}
             mapStyle="mapbox://styles/mapbox/navigation-day-v1"
@@ -167,27 +269,36 @@ export function Page() {
               </Source>
             )}
 
-            {/* {mapCoor && (
-              <Source
-                type="geojson"
-                data={{ type: 'Feature', geometry: { type: 'Polygon', coordinates: [...mapCoor.coordinates] } }}
-              >
-                <Layer id="drawnPolygon" type="fill" paint={{ 'fill-color': '#ff0000', 'fill-opacity': 0.5 }} />
-              </Source>
-            )} */}
+            {wells &&
+              wells.map((well, i) => (
+                <Marker
+                  key={`marker-${i}`}
+                  longitude={well.fields.longitude}
+                  latitude={well.fields.latitude}
+                  anchor="bottom"
+                  onClick={(e) => {
+                    e.originalEvent.stopPropagation();
+                    wellInfo(wells, well);
+                  }}
+                >
+                  <Pin size={10} />
+                </Marker>
+              ))}
 
-            <DrawControl
-              position="top-left"
-              displayControlsDefault={false}
-              controls={{
-                polygon: true,
-                trash: true,
-              }}
-              defaultMode="draw_polygon"
-              onCreate={onUpdate}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
-            />
+            {mapContext === 'Properties' && (
+              <DrawControl
+                position="top-left"
+                displayControlsDefault={false}
+                controls={{
+                  polygon: true,
+                  trash: true,
+                }}
+                defaultMode="draw_polygon"
+                onCreate={onUpdate}
+                onUpdate={onUpdate}
+                onDelete={onDelete}
+              />
+            )}
           </Map>
         )}
       </div>

@@ -16,7 +16,6 @@ import { paths } from '@/paths';
 import { RouterLink } from '@/components/core/link';
 
 export function CourseCard({ document }) {
-  console.log(document);
   return (
     <Card variant="outlined">
       {/* <CardMedia
@@ -30,7 +29,7 @@ export function CourseCard({ document }) {
           <Link
             color="text.primary"
             component={RouterLink}
-            href={paths.dashboard.academy.details('1')}
+            href={document.fileUrl}
             underline="none"
             variant="subtitle1"
           >
@@ -49,8 +48,8 @@ export function CourseCard({ document }) {
       </CardContent>
       {/* <LinearProgress value={course.progress} variant="determinate" /> */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-        <Button color="secondary" component={RouterLink} endIcon={<DownloadIcon />}>
-          href={document.fileUrl}
+        <Button color="secondary" component={RouterLink} endIcon={<DownloadIcon />} href={document.fileUrl}>
+          Download
         </Button>
       </Box>
     </Card>

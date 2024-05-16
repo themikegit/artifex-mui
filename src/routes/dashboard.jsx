@@ -92,6 +92,25 @@ export const route = {
       ],
     },
     {
+      path: 'lead-gen',
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/lead-gen');
+            return { Component: Page };
+          },
+        },
+        {
+          path: ':videoId',
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/gen-details');
+            return { Component: Page };
+          },
+        },
+      ],
+    },
+    {
       path: 'analytics',
       lazy: async () => {
         const { Page } = await import('@/pages/dashboard/analytics');
@@ -182,7 +201,7 @@ export const route = {
         {
           index: true,
           lazy: async () => {
-            const { Page } = await import('@/pages/dashboard/customers/list');
+            const { Page } = await import('@/pages/dashboard/lead-gen');
             return { Component: Page };
           },
         },

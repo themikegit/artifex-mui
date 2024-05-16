@@ -49,20 +49,10 @@ export function MessageBox({ message }) {
                   {message.author.name}
                 </Link>
               </div>
-              {message.type === 'image' ? (
-                <CardMedia
-                  image={message.content}
-                  onClick={() => {
-                    // open modal
-                  }}
-                  sx={{ height: '200px', width: '200px' }}
-                />
-              ) : null}
-              {message.type === 'text' ? (
-                <Typography color="inherit" variant="body1">
-                  {message.content}
-                </Typography>
-              ) : null}
+
+              <Typography color="inherit" variant="body1">
+                {message.content}
+              </Typography>
             </Stack>
           </Card>
           <Box sx={{ display: 'flex', justifyContent: position === 'right' ? 'flex-end' : 'flex-start', px: 2 }}>

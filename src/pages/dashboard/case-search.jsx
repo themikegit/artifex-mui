@@ -22,24 +22,7 @@ export function Page() {
   const [selectedTown, setselectedTown] = useState(null);
   const [serchKeywords, setserchKeywords] = useState(null);
 
-  const locations = [
-    { city: 'tulsa', state: 'ok', country: 'usa', label: 'Tulsa, OK' },
-    { city: 'manchester', state: 'nh', country: 'usa', label: 'Manchester, NH' },
-    { city: 'mashpee', state: 'ma', country: 'usa', label: 'Mashpee, MA' },
-    { city: 'somerville', state: 'ma', country: 'usa', label: 'Somerville, MA' },
-    { city: 'waltham', state: 'ma', country: 'usa', label: 'Waltham, MA' },
-    { city: 'watertown', state: 'ma', country: 'usa', label: 'Watertown, MA' },
-    { city: 'national', state: 'national', country: 'kenya', label: 'Kenya - Federal' },
-    { city: 'national', state: 'national', country: 'georgia', label: 'Georgia - Federal' },
-    { city: 'national', state: 'national', country: 'nigeria', label: 'Nigeria - Federal' },
-    { city: 'national', state: 'national', country: 'south africa', label: 'South Africa - Federal' },
-    { city: 'drammen', state: 'national', country: 'norway', label: 'Drammen, Norway' },
-    { city: 'oslo', state: 'national', country: 'norway', label: 'Oslo, Norway' },
-    { city: 'stortinget', state: 'national', country: 'norway', label: 'Norway - Stortinget' },
-    { city: 'pittsfield', state: 'ma', country: 'usa', label: 'Pittsfield, MA' },
-    { city: 'dalton', state: 'ma', country: 'usa', label: 'Dalton, MA' },
-    { city: 'greenfield', state: 'ma', country: 'usa', label: 'Greenfield, MA' },
-  ];
+  const cities = [{ city: 'boston', state: 'ma', country: 'usa', label: 'Boston, MA' }];
 
   const handleSelect = (event) => {
     const st = locations.find((l) => l.city === event.target.value);
@@ -145,22 +128,20 @@ export function Page() {
                   <FormControl sx={{ maxWidth: '100%', width: '240px' }}>
                     <InputLabel>Town</InputLabel>
                     <Select onChange={($event) => handleSelect($event)} defaultValue="" fullWidth name="category">
-                      {locations.map((l, index) => (
+                      {cities.map((l, index) => (
                         <Option key={index} value={`${l.city}`}>
                           {l.label}
                         </Option>
                       ))}
                     </Select>
                   </FormControl>
-                  {/* <FormControl sx={{ maxWidth: '100%', width: '240px' }}>
+                  <FormControl sx={{ maxWidth: '100%', width: '240px' }}>
                     <InputLabel>Type</InputLabel>
                     <Select defaultValue="" fullWidth name="category">
-                      <Option value="">All available</Option>
-                      <Option value="fullstack">Fullstack</Option>
-                      <Option value="devops">DevOps</Option>
-                      <Option value="design">Design</Option>
+                      <Option value="all">All Available Meetings</Option>
+                      <Option value="zoning">Zoning Board of Approvals</Option>
                     </Select>
-                  </FormControl> */}
+                  </FormControl>
 
                   <Button onClick={getDocuments} startIcon={<MagnifyingGlassIcon />} variant="contained">
                     Search

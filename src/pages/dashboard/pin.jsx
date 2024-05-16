@@ -1,14 +1,21 @@
 import React from 'react';
 
-const dotStyle = {
-  width: '10px',
-  height: '10px',
-  borderRadius: '50%', // Make it round
-  backgroundColor: 'blue', // Set the color to blue
+const Pin = ({ size = 20, color = '#007cbf', strokeColor = '#ffffff', opacity = 0.75 }) => {
+  const adjustedSize = size * 1.75; // Base adjustment
+  const strokeWidth = 1; // Fixed stroke width
+
+  return (
+    <svg
+      height={adjustedSize}
+      viewBox="0 0 24 24"
+      style={{
+        cursor: 'pointer',
+        opacity: opacity,
+      }}
+    >
+      <circle cx="12" cy="12" r="10" fill={color} stroke={strokeColor} strokeWidth={strokeWidth} />
+    </svg>
+  );
 };
 
-function Pin({ size = 5 }) {
-  return <div style={{ ...dotStyle, width: size, height: size }} />;
-}
-
-export default React.memo(Pin);
+export default Pin;

@@ -132,8 +132,8 @@ export function Page() {
             />
             <Stack spacing={4} sx={{ position: 'relative', zIndex: 1 }}>
               <Stack spacing={1}>
-                <Typography variant="h3">Search for town cases</Typography>
-                <Typography>Learn from the large database of town assets</Typography>
+                <Typography variant="h3">Document Discovery Platform</Typography>
+                <Typography>Navigate the Information: Discover, Access, and Utilize Documents with Ease</Typography>
               </Stack>
               <Card>
                 <Stack direction="row" spacing={3} sx={{ alignItems: 'flex-end', flexWrap: 'wrap', p: 3 }}>
@@ -201,7 +201,7 @@ export function Page() {
             </Grid>
           </Grid> */}
           <Stack spacing={4}>
-            <Typography variant="h6">Results</Typography>
+            {documents && <Typography variant="h6">Results ({documents.length}) </Typography>}
             <Grid container spacing={4}>
               {documents &&
                 documents.map((doc) => (
