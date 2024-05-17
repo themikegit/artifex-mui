@@ -1,7 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LinearProgress, SpeedDial, SpeedDialAction, SpeedDialIcon, TextField } from '@mui/material';
+import {
+  Fab,
+  LinearProgress,
+  Modal,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+  TextField,
+  Typography,
+} from '@mui/material';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
+import { Box, width } from '@mui/system';
+import { Calculator as CalculatorIcon } from '@phosphor-icons/react/dist/ssr/Calculator';
 import { HouseSimple as HouseSimpleIcon } from '@phosphor-icons/react/dist/ssr/HouseSimple';
 import { PaperPlaneTilt as PaperPlaneTiltIcon } from '@phosphor-icons/react/dist/ssr/PaperPlaneTilt';
 import { StackSimple as StackSimpleIcon } from '@phosphor-icons/react/dist/ssr/StackSimple';
@@ -25,6 +36,7 @@ import { CityContext } from '@/contexts/selected-city';
 import { BoundaryAnalytics } from './analytics';
 import DrawControl from './draw-control';
 import Pin from './pin';
+import { TaxSim } from './tax-sim';
 import { WellsData } from './wells-data';
 
 const metadata = { title: `Crypto | Dashboard | ${config.site.name}` };
@@ -32,6 +44,17 @@ const metadata = { title: `Crypto | Dashboard | ${config.site.name}` };
 // @todo set layer icon to env or properties. this is for speed dial, so user knows what soruce is used
 
 export function Page() {
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 900,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 2,
+  };
   const mapRef = useRef();
   const navigate = useNavigate();
   const [locations, setLocations] = useState(null);
@@ -43,6 +66,7 @@ export function Page() {
   const [sourceType, setsourceType] = useState('Properties');
   const [mapContext, setmapContext] = useState();
   const [open, setOpen] = useState(false);
+  const [taxOpen, settaxOpen] = useState(false);
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
 
   const { selectedCity } = React.useContext(CityContext);
@@ -179,6 +203,10 @@ export function Page() {
     }
   }, []);
 
+  const openTaxCalc = () => {
+    settaxOpen(true);
+  };
+
   const onUpdate = useCallback(({ features }) => {
     console.log('update');
     if (features && features.length > 0) {
@@ -210,6 +238,16 @@ export function Page() {
         <title>{metadata.title}</title>
       </Helmet>
       <div>
+        <Modal
+          open={taxOpen}
+          onClose={() => settaxOpen(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <TaxSim />
+          </Box>
+        </Modal>
         <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
           {mapContext === 'Properties' && <BoundaryAnalytics />}
           {mapContext === 'Environmental' && <WellsData data={wellsData} />}
@@ -218,7 +256,7 @@ export function Page() {
       <div style={{ width: '100vw', height: '95vh' }}>
         <SpeedDial
           ariaLabel="SpeedDial basic example"
-          sx={{ position: 'absolute', top: 80, right: 16 }}
+          sx={{ position: 'absolute', top: 140, right: 16 }}
           direction="down"
           icon={<StackSimpleIcon fontSize="var(--icon-fontSize-lg)" />}
         >
@@ -231,6 +269,9 @@ export function Page() {
             />
           ))}
         </SpeedDial>
+        <Fab sx={{ position: 'absolute', top: 70, right: 16 }} color="primary" aria-label="add">
+          <CalculatorIcon onClick={openTaxCalc} fontSize="var(--icon-fontSize-lg)" />
+        </Fab>
         {loading && <LinearProgress />}
         {initialMapView && (
           <Map
