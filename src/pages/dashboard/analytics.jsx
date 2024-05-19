@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LinearProgress, Skeleton } from '@mui/material';
+import { LinearProgress, Skeleton, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -22,6 +22,7 @@ import { CounterWidget } from '@/components/dashboard/overview/counter-widget';
 
 import { PropertiesTable } from './properties-table';
 import { PropertyDistributionChart } from './property-distribution-chart';
+import { ZoningCasesTable } from './zoning-cases-table';
 
 const metadata = { title: `Analytics | Dashboard | ${config.site.name}` };
 
@@ -39,6 +40,9 @@ export function BoundaryAnalytics() {
   const [cumulativeAssessmentBreakDown, setcumulativeAssessmentBreakDown] = useState(null);
   const [lotRatio, setlotRatio] = useState(null);
   const [propertiesType, setpropertiesType] = useState(null);
+  const [zoningCases, setzoningCases] = useState(null);
+
+  const [type, setType] = useState('analytics');
 
   useEffect(() => {
     const [west, south, east, north] = bbox(mapCoor);
@@ -97,6 +101,11 @@ export function BoundaryAnalytics() {
       { name: 'Primary', value: voterProperties.length },
       { name: 'Non-Primary', value: nonVoterProperties.length },
     ]);
+  };
+
+  const handleChange = (event, type) => {
+    setType(type);
+    getZoningCases();
   };
 
   const calculateAverageAge = (propertiesData) => {
@@ -186,6 +195,29 @@ export function BoundaryAnalytics() {
 
     setpropertiesType(propertyTypeArray);
   };
+
+  const getZoningCases = () => {
+    console.log(properties);
+    let propertyIds = properties.results.map((p) => p.property_id);
+    console.log(propertyIds);
+    let postData = {
+      property_ids: propertyIds,
+    };
+
+    fetch(`${baseUrl}zoning-cases-bounds/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setzoningCases(data.zoning_cases);
+      })
+      .catch((err) => console.error('Error fetching property zoning cases:', err));
+  };
+
   if (isLoading) {
     return (
       <Box
@@ -258,82 +290,99 @@ export function BoundaryAnalytics() {
               Map
             </Link>
           </div> */}
+
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ alignItems: 'flex-start' }}>
             <Box sx={{ flex: '1 1 auto', marginBottom: '25px' }}>
               <Typography variant="h4">Boundary Analytics</Typography>
             </Box>
+            <ToggleButtonGroup color="primary" value={type} exclusive onChange={handleChange} aria-label="Platform">
+              <ToggleButton value="analytics">
+                {' '}
+                <Typography variant="subtitle2">Analytics</Typography>
+              </ToggleButton>
+              <ToggleButton value="zoning">
+                {' '}
+                <Typography variant="subtitle2">Zoning Cases</Typography>
+              </ToggleButton>
+            </ToggleButtonGroup>
             {/* <div>
               <Button startIcon={<PlusIcon />} variant="contained">
                 Save Boundary
               </Button>
             </div> */}
           </Stack>
-          <Grid container spacing={4}>
-            {properties && (
+          {type === 'analytics' && (
+            <Grid container spacing={4}>
+              {properties && (
+                <Grid md={4} xs={12}>
+                  {properties && (
+                    <CounterWidget
+                      amount={properties.count}
+                      diff={15}
+                      icon={HouseIcon}
+                      title="Total properties"
+                      trend="down"
+                    />
+                  )}
+                </Grid>
+              )}
+
               <Grid md={4} xs={12}>
-                {properties && (
+                {avgAssessment && (
                   <CounterWidget
-                    amount={properties.count}
-                    diff={15}
-                    icon={HouseIcon}
-                    title="Total properties"
+                    amount={avgAssessment}
+                    currency={true}
+                    diff={5}
+                    icon={TagIcon}
+                    title="Average Assessment"
                     trend="down"
                   />
                 )}
               </Grid>
-            )}
+              <Grid md={4} xs={12}>
+                {avgAge && (
+                  <CounterWidget
+                    amount={Math.floor(avgAge)}
+                    diff={5}
+                    icon={CalendarIcon}
+                    title="Average Age"
+                    trend="down"
+                  />
+                )}
+              </Grid>
+              <Grid xs={12}>{yearsBuilt && <Summary data={yearsBuilt} />}</Grid>
+              <Grid lg={3} xs={6}>
+                {avgAssessmentComparasion && (
+                  <DonutChart currency={true} title="Average Assessment Comparasion" data={avgAssessmentComparasion} />
+                )}
+              </Grid>
+              <Grid lg={3} xs={6}>
+                {cumulativeAssessmentBreakDown && (
+                  <DonutChart title="Cumulative Assessment Breakdown" data={cumulativeAssessmentBreakDown} />
+                )}
+              </Grid>
+              <Grid lg={3} xs={6}>
+                {lotRatio && <DonutChart title="Residence Type Land Utilization" data={lotRatio} />}
+              </Grid>
+              <Grid lg={3} xs={6}>
+                {propertiesType && (
+                  <PropertyDistributionChart title="Property Type Distribution" data={propertiesType} />
+                )}
+              </Grid>
+              <Grid lg={6} xs={12}>
+                <TaxesChart data={taxes} />
+              </Grid>
+              <Grid lg={6} xs={12}>
+                {voterBreakdown && <VoterBreakdownChart data={voterBreakdown} />}
+              </Grid>
 
-            <Grid md={4} xs={12}>
-              {avgAssessment && (
-                <CounterWidget
-                  amount={avgAssessment}
-                  currency={true}
-                  diff={5}
-                  icon={TagIcon}
-                  title="Average Assessment"
-                  trend="down"
-                />
-              )}
+              <Grid lg={12} xs={12}>
+                {properties && <PropertiesTable rows={properties.results} />}
+              </Grid>
             </Grid>
-            <Grid md={4} xs={12}>
-              {avgAge && (
-                <CounterWidget
-                  amount={Math.floor(avgAge)}
-                  diff={5}
-                  icon={CalendarIcon}
-                  title="Average Age"
-                  trend="down"
-                />
-              )}
-            </Grid>
-            <Grid xs={12}>{yearsBuilt && <Summary data={yearsBuilt} />}</Grid>
-            <Grid lg={3} xs={6}>
-              {avgAssessmentComparasion && (
-                <DonutChart currency={true} title="Average Assessment Comparasion" data={avgAssessmentComparasion} />
-              )}
-            </Grid>
-            <Grid lg={3} xs={6}>
-              {cumulativeAssessmentBreakDown && (
-                <DonutChart title="Cumulative Assessment Breakdown" data={cumulativeAssessmentBreakDown} />
-              )}
-            </Grid>
-            <Grid lg={3} xs={6}>
-              {lotRatio && <DonutChart title="Residence Type Land Utilization" data={lotRatio} />}
-            </Grid>
-            <Grid lg={3} xs={6}>
-              {propertiesType && <PropertyDistributionChart title="Property Type Distribution" data={propertiesType} />}
-            </Grid>
-            <Grid lg={6} xs={12}>
-              <TaxesChart data={taxes} />
-            </Grid>
-            <Grid lg={6} xs={12}>
-              {voterBreakdown && <VoterBreakdownChart data={voterBreakdown} />}
-            </Grid>
+          )}
 
-            <Grid lg={12} xs={12}>
-              {properties && <PropertiesTable rows={properties.results} />}
-            </Grid>
-          </Grid>
+          {type === 'zoning' && zoningCases && <ZoningCasesTable rows={zoningCases}></ZoningCasesTable>}
         </Stack>
       </Box>
     </React.Fragment>

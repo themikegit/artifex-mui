@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import { ArrowRight as ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowRight';
 import { CalendarBlank as CalendarBlankIcon } from '@phosphor-icons/react/dist/ssr/CalendarBlank';
 import { DotsThree as DotsThreeIcon } from '@phosphor-icons/react/dist/ssr/DotsThree';
+import { DotsThreeCircle as DotsThreeCircleIcon } from '@phosphor-icons/react/dist/ssr/DotsThreeCircle';
 
 import { dayjs } from '@/lib/dayjs';
 
@@ -33,8 +34,8 @@ export function Events({ events }) {
             <CalendarBlankIcon fontSize="var(--Icon-fontSize)" />
           </Avatar>
         }
-        subheader="Based on the linked bank accounts"
-        title="Upcoming events"
+        subheader="Documents and meetings summary"
+        title="Recent Documents"
       />
       <CardContent sx={{ py: '8px' }}>
         <List disablePadding>
@@ -46,7 +47,7 @@ export function Events({ events }) {
       <Divider />
       <CardActions>
         <Button color="secondary" endIcon={<ArrowRightIcon />} size="small">
-          See all events
+          See all documents
         </Button>
       </CardActions>
     </Card>
@@ -66,25 +67,25 @@ function EventItem({ event }) {
             textAlign: 'center',
           }}
         >
-          <Typography variant="caption">{dayjs(event.createdAt).format('MMM').toUpperCase()}</Typography>
-          <Typography variant="h6">{dayjs(event.createdAt).format('D')}</Typography>
+          <Typography variant="caption">{dayjs(event.date).format('MMM').toUpperCase()}</Typography>
+          <Typography variant="h6">{dayjs(event.date).format('D')}</Typography>
         </Box>
       </ListItemAvatar>
       <ListItemText
         disableTypography
         primary={
           <Typography noWrap variant="subtitle2">
-            {event.title}
+            {event.name}
           </Typography>
         }
         secondary={
           <Typography color="text.secondary" noWrap variant="body2">
-            {event.description}
+            {event.summary}
           </Typography>
         }
       />
       <IconButton>
-        <CalendarBlankIcon />
+        <DotsThreeCircleIcon />
       </IconButton>
     </ListItem>
   );

@@ -147,7 +147,7 @@ export function WellsData({ data: initialData }) {
                 </IconButton> */}
                 <InputBase
                   sx={{ ml: 1, flex: 1 }}
-                  placeholder="Serch wells"
+                  placeholder="Search wells"
                   inputProps={{ 'aria-label': 'search wells' }}
                   onChange={handleSearchChange}
                   onKeyDown={handleSearchKeyPress}

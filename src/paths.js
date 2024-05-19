@@ -66,6 +66,15 @@ export const paths = {
       main: '/lead-gen',
       details: (videoId) => `/lead-gen/${videoId}`,
     },
+    municipalArchive: {
+      main: '/municipal-archive',
+      details: (videoId) => `/lead-gen/${videoId}`,
+    },
+    regulationArchive: {
+      main: '/regulation-archive',
+      details: (videoId) => `/lead-gen/${videoId}`,
+    },
+
     settings: {
       account: '/dashboard/settings/account',
       billing: '/dashboard/settings/billing',

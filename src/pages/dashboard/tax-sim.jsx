@@ -31,11 +31,11 @@ export function TaxSim({ onClose }) {
   const [selectedFeature, setselectedFeature] = useState('over_65');
   const [selectedTax, setselectedTax] = useState();
   const [tax, setTax] = useState({
-    totalAssessment: '--',
-    totAssAfterTaxImpact: '--',
-    taxesFromFeature: '--',
-    taxFeatAfterTaxImpact: '--',
-    taxImpact: '--',
+    totalAssessment: 0,
+    totAssAfterTaxImpact: 0,
+    taxesFromFeature: 0,
+    taxFeatAfterTaxImpact: 0,
+    taxImpact: 0,
   });
   const calculateTax = () => {
     fetch(`${baseUrl}tax-sim-tool/?city=${selectedTown}&feature=${selectedFeature}`)
@@ -50,16 +50,6 @@ export function TaxSim({ onClose }) {
           taxFeatAfterTaxImpact: data.total_assessment_over_65 + taxImpactNum,
           taxImpact: taxImpactNum,
         });
-        // let taxImpactNum = data.total_assessment * (taxAmmountInput.value / 100);
-        // totAssess.innerText = '--';
-        // featureTaxes.innerText = '--';
-        // featureTaxesAfterImpact.innerText = '--';
-
-        // totAssess.innerText = cf.format(data.total_assessment);
-        // featureTaxes.innerText = cf.format(data.total_assessment_over_65);
-        // featureTaxesAfterImpact.innerText = cf.format(data.total_assessment_over_65 + taxImpactNum);
-        // taxImpact.innerText = cf.format(taxImpactNum);
-        // totalAssessmentAfterImpact.innerText = cf.format(data.total_assessment + taxImpactNum);
       })
       .catch((err) => console.error('Error fetching GeoJSON data: ', err));
   };
@@ -103,7 +93,7 @@ export function TaxSim({ onClose }) {
           </Select>
         </Grid>
         <Grid item xs={4}>
-          <InputLabel id="tax">Tax Change Ammount</InputLabel>
+          <InputLabel id="tax">Tax Change Amount</InputLabel>
           <OutlinedInput
             fullWidth={true}
             onChange={(event) => setselectedTax(event.target.value)}
@@ -154,11 +144,11 @@ export function TaxSim({ onClose }) {
                     justifyContent: 'center',
                   }}
                 >
-                  {tax.totAssAfterTaxImpact > 0 ? (
+                  {/* {tax.totAssAfterTaxImpact > 0 ? (
                     <TrendUpIcon fontSize="var(--icon-fontSize-md)" />
                   ) : (
                     <TrendDownIcon fontSize="var(--icon-fontSize-md)" />
-                  )}
+                  )} */}
                 </Box>
                 <Typography color="text.secondary" variant="body2">
                   <Typography
@@ -213,11 +203,11 @@ export function TaxSim({ onClose }) {
                     justifyContent: 'center',
                   }}
                 >
-                  {tax.taxFeatAfterTaxImpact > 0 ? (
+                  {/* {tax.taxFeatAfterTaxImpact > 0 ? (
                     <TrendUpIcon fontSize="var(--icon-fontSize-md)" />
                   ) : (
                     <TrendDownIcon fontSize="var(--icon-fontSize-md)" />
-                  )}
+                  )} */}
                 </Box>
                 <Typography color="text.secondary" variant="body2">
                   <Typography
