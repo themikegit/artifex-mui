@@ -57,6 +57,7 @@ export const layoutConfig = {
           title: 'Regulation Archive',
           href: paths.dashboard.regulationArchive.main,
           icon: 'receipt',
+          disabled: true,
         },
       ],
     },

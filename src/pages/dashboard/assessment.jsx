@@ -63,8 +63,9 @@ export function Page() {
   const [wellsData, setwellsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [initialMapView, setInitialmapView] = useState(null);
-  const [sourceType, setsourceType] = useState('Properties');
-  const [mapContext, setmapContext] = useState();
+
+  const [mapContext, setmapContext] = useState('Properties');
+  const [cursor, setCursor] = useState('auto');
   const [open, setOpen] = useState(false);
   const [taxOpen, settaxOpen] = useState(false);
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
@@ -208,7 +209,8 @@ export function Page() {
   };
 
   const onUpdate = useCallback(({ features }) => {
-    console.log('update');
+    console.log(mapRef);
+    setCursor('crosshair');
     if (features && features.length > 0) {
       const drawnPolygonGeometry = features[0].geometry;
       setmapCoorContext(drawnPolygonGeometry);
@@ -245,7 +247,7 @@ export function Page() {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <TaxSim />
+            <TaxSim onClose={() => settaxOpen(false)} />
           </Box>
         </Modal>
         <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
@@ -278,6 +280,7 @@ export function Page() {
             onClick={onClick}
             onMoveEnd={(e) => handleViewportChange(e)}
             ref={mapRef}
+            // cursor={cursor}
             initialViewState={initialMapView}
             mapStyle="mapbox://styles/mapbox/navigation-day-v1"
             onLoad={onMapLoad}

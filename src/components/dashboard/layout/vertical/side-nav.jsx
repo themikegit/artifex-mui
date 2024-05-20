@@ -184,6 +184,7 @@ function NavItem({
             bgcolor: 'var(--NavItem-disabled-background)',
             color: 'var(--NavItem-disabled-color)',
             cursor: 'not-allowed',
+            pointerEvents: 'none',
           }),
           ...(active && {
             bgcolor: 'var(--NavItem-active-background)',

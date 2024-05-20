@@ -68,11 +68,11 @@ export const paths = {
     },
     municipalArchive: {
       main: '/municipal-archive',
-      details: (videoId) => `/lead-gen/${videoId}`,
+      details: (videoId) => `/municipal-archive/${videoId}`,
     },
     regulationArchive: {
       main: '/regulation-archive',
-      details: (videoId) => `/lead-gen/${videoId}`,
+      details: (docId) => `/lead-gen/${docId}`,
     },
 
     settings: {

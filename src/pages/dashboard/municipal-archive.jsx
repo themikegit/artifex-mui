@@ -40,10 +40,10 @@ const metadata = { title: `List | Customers | Dashboard | ${config.site.name}` }
 
 export function Page() {
   const locations = [
+    { city: 'Sapulpa', state: 'ok', country: 'usa', label: 'Sapulpa, OK' },
     { city: 'Tulsa', state: 'ok', country: 'usa', label: 'Tulsa, OK' },
     { city: 'Bristow', state: 'ok', country: 'usa', label: 'Bristow, OK' },
     { city: 'Creek Count', state: 'ok', country: 'usa', label: 'Creek Count, OK' },
-    { city: 'Sapulpa', state: 'ok', country: 'usa', label: 'Sapulpa, OK' },
   ];
   // const { email, phone, sortDir, status } = useExtractSearchParams();
   // const sortedCustomers = applySort(customers, sortDir);
@@ -53,11 +53,11 @@ export function Page() {
 
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
   const [septicLead, setsepticLeads] = useState(null);
-  const [type, setType] = useState('document');
+  const [type, setType] = useState('meeting');
   const [documentsResults, setdocumentsResults] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTown, setselectedTown] = useState('Tulsa');
+  const [selectedTown, setselectedTown] = useState('Sapulpa');
 
   const handleChange = (event, type) => {
     setType(type);
@@ -132,13 +132,13 @@ export function Page() {
             <Stack spacing={2}>
               <Box>
                 <ToggleButtonGroup color="primary" value={type} exclusive onChange={handleChange} aria-label="Platform">
-                  <ToggleButton value="document">
-                    {' '}
-                    <Typography variant="subtitle2">Documents</Typography>
-                  </ToggleButton>
                   <ToggleButton value="meeting">
                     {' '}
                     <Typography variant="subtitle2">Meetings</Typography>
+                  </ToggleButton>
+                  <ToggleButton value="document">
+                    {' '}
+                    <Typography variant="subtitle2">Documents</Typography>
                   </ToggleButton>
                 </ToggleButtonGroup>
               </Box>

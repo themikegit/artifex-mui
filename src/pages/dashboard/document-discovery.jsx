@@ -151,8 +151,8 @@ export function Page() {
                     <InputLabel>Town</InputLabel>
                     <Select
                       required={true}
+                      value={'greenfield'}
                       onChange={($event) => handleSelect($event)}
-                      defaultValue=""
                       fullWidth
                       name="category"
                     >

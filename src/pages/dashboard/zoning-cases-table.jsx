@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { TableContainer, Tooltip } from '@mui/material';
+import { Divider, TableContainer, Tooltip } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -10,6 +10,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { display } from '@mui/system';
 import { CheckCircle as CheckCircleIcon } from '@phosphor-icons/react/dist/ssr/CheckCircle';
 import { Clock as ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
 import { DotsThreeCircle as DotsThreeCircleIcon } from '@phosphor-icons/react/dist/ssr/DotsThreeCircle';
@@ -62,11 +63,42 @@ const columns = [
     align: 'left',
     field: 'owner',
   },
+
   {
+    formatter: (row) => (
+      <Box sx={{ height: '90px', overflow: 'scroll' }}>
+        {row.representatives.map((rep) => (
+          <>
+            <Typography color="text.primary" noWrap variant="body1">
+              {rep.representative_name}
+            </Typography>
+
+            <Typography color="text.secondary" noWrap variant="body2">
+              {rep.representative_role}
+            </Typography>
+            <Divider />
+          </>
+        ))}
+      </Box>
+    ),
+
     name: 'Reperesentives',
     width: '75px',
     align: 'left',
     field: 'representatives',
+  },
+  {
+    formatter: (row) => (
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '200px' }}>
+        {row.variances_and_regulations.map((vr) => (
+          <Chip sx={{ m: 1 }} label={vr} color="secondary" />
+        ))}
+      </Box>
+    ),
+    name: 'Variances & Regulations',
+    width: '75px',
+    align: 'left',
+    field: 'variances_and_regulations',
   },
   {
     formatter: (row) => (
@@ -82,55 +114,30 @@ const columns = [
     field: 'summary',
   },
   {
+    formatter: (row) =>
+      row.topic.map((t) => (
+        <Typography color="text.secondary" variant="body2">
+          {t}
+        </Typography>
+      )),
     name: 'Topics',
-    width: '75px',
+    width: '200px',
     align: 'left',
     field: 'topic',
   },
+
   {
-    name: 'Variances & Regulations',
-    width: '75px',
-    align: 'left',
-    field: 'variances_and_regulations',
-  },
-  {
+    formatter: (row) => (
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '200px' }}>
+        {row.zoning_district.map((zd) => (
+          <Chip sx={{ m: 1 }} label={zd} color="primary" />
+        ))}
+      </Box>
+    ),
     name: 'Zoning District',
-    width: '75px',
     align: 'left',
     field: 'zoning_district',
   },
-
-  // {
-  //   formatter: (row) => <Chip label={row.media_type} color="primary" />,
-  //   name: 'Type',
-  //   width: '20px',
-  //   align: 'center',
-  //   field: 'media_type',
-  // },
-
-  // {
-  //   formatter: (row) => (
-  //     <Typography sx={{ width: '170px' }} color="text.secondary" noWrap variant="body2">
-  //       {row.summary}
-  //     </Typography>
-  //   ),
-  //   name: 'Summary',
-  //   width: '170px',
-  //   align: 'left',
-  //   field: 'summary',
-  // },
-
-  // {
-  //   formatter: (row) => (
-  //     <IconButton component={RouterLink} href={paths.dashboard.leadGen.details(row.video_id)}>
-  //       <DotsThreeCircleIcon />
-  //     </IconButton>
-  //   ),
-  //   name: 'Actions',
-  //   hideName: true,
-  //   width: '40px',
-  //   align: 'left',
-  // },
 ];
 
 export function ZoningCasesTable({ rows }) {

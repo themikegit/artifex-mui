@@ -108,13 +108,13 @@ export const route = {
             return { Component: Page };
           },
         },
-        // {
-        //   path: ':fileId',
-        //   lazy: async () => {
-        //     const { Page } = await import('@/pages/dashboard/regulation-archive');
-        //     return { Component: Page };
-        //   },
-        // },
+        {
+          path: ':docId',
+          lazy: async () => {
+            const { Page } = await import('@/pages/dashboard/municipal-details');
+            return { Component: Page };
+          },
+        },
       ],
     },
     {

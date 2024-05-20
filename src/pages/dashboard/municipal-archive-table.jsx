@@ -58,7 +58,7 @@ const columns = [
 
   {
     formatter: (row) => (
-      <IconButton component={RouterLink} href={paths.dashboard.leadGen.details(row.video_id)}>
+      <IconButton component={RouterLink} href={paths.dashboard.municipalArchive.details(row.id)}>
         <DotsThreeCircleIcon />
       </IconButton>
     ),
