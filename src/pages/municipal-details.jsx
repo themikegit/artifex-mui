@@ -12,6 +12,7 @@ import { config } from '@/config';
 import { paths } from '@/paths';
 import { GenDataContext } from '@/contexts/generic-data';
 import { ChatBot } from '@/components/chat-bot';
+import { Content } from '@/components/content';
 import { RouterLink } from '@/components/core/link';
 
 const metadata = { title: `Details | Blog | Dashboard | ${config.site.name}` };
@@ -94,7 +95,7 @@ export function Page() {
                 }}
               >
                 <Typography sx={{ p: 2 }} variant="body2">
-                  {municipalDetails.summary}
+                  <Content content={municipalDetails.summary} />
                 </Typography>
               </Box>
             </Grid>

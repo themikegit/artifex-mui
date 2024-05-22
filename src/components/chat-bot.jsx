@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
@@ -9,9 +10,19 @@ import { MessageBox } from './message-box';
 
 export function ChatBot({ path }) {
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal, open } = state;
 
   const messagesRef = useRef(null);
   const [messages, setMessages] = useState([]);
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
 
   function getCSRFToken() {
     const cookies = document.cookie.split(';');
@@ -42,6 +53,7 @@ export function ChatBot({ path }) {
     })
       .then((response) => {
         if (!response.ok) {
+          setState({ ...state, open: true });
           throw new Error('Network response was not ok');
         }
         return response.json();
@@ -116,6 +128,11 @@ export function ChatBot({ path }) {
         ))}
       </Stack>
       <MessageAdd onSend={handleSendMessage} />
+      <Snackbar anchorOrigin={{ vertical, horizontal }} autoHideDuration={3000} open={open} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" variant="filled" sx={{ width: '100%' }}>
+          Something went wrong!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

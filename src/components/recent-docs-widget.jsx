@@ -21,6 +21,8 @@ import { DotsThreeCircle as DotsThreeCircleIcon } from '@phosphor-icons/react/di
 import { paths } from '@/paths';
 import { dayjs } from '@/lib/dayjs';
 
+import { RouterLink } from './core/link';
+
 export function RecentDocsWidget({ events }) {
   return (
     <Card>
@@ -56,6 +58,7 @@ export function RecentDocsWidget({ events }) {
 }
 
 function EventItem({ event }) {
+  console.log(event);
   return (
     <ListItem disableGutters key={event.id}>
       <ListItemAvatar>
@@ -85,8 +88,8 @@ function EventItem({ event }) {
           </Typography>
         }
       />
-      <IconButton>
-        <DotsThreeCircleIcon href={paths.dashboard.municipalArchive.details(event.id)} />
+      <IconButton component={RouterLink} href={paths.dashboard.municipalArchive.details(event.media_id)}>
+        <DotsThreeCircleIcon />
       </IconButton>
     </ListItem>
   );
