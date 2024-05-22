@@ -46,13 +46,11 @@ export function Root({ children }) {
             <LocalizationProvider>
               <UserProvider>
                 <SettingsProvider settings={settings.current}>
-                  <I18nProvider language="en">
-                    <ThemeProvider>
-                      {children}
-                      <SettingsButton />
-                      <Toaster position="bottom-right" />
-                    </ThemeProvider>
-                  </I18nProvider>
+                  <ThemeProvider>
+                    {children}
+                    <SettingsButton />
+                    <Toaster position="bottom-right" />
+                  </ThemeProvider>
                 </SettingsProvider>
               </UserProvider>
             </LocalizationProvider>

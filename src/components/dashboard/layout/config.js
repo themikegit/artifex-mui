@@ -3,14 +3,13 @@ import { paths } from '@/paths';
 export const layoutConfig = {
   navItems: [
     {
-      key: 'dashboards',
+      key: 'overview',
       title: 'Dashboard',
       items: [
         {
           title: 'Overview',
           href: paths.dashboard.overview.main,
           icon: 'house',
-          matcher: { type: 'startsWith', href: '/dashboard' },
         },
       ],
     },
@@ -19,7 +18,7 @@ export const layoutConfig = {
       title: 'Tools',
       items: [
         {
-          key: 'core',
+          key: 'assessment',
           title: 'Assessement',
           href: paths.dashboard.assessment.main,
           matcher: { type: 'startsWith', href: '/assessment' },
@@ -27,14 +26,14 @@ export const layoutConfig = {
           //  items: [{ key: 'invoices', title: 'Tax-Sim tool', href: paths.dashboard.invoices.list }],
         },
         {
-          key: 'settings',
+          key: 'case_search',
           title: 'Case Search',
           href: paths.dashboard.caseSearch,
           icon: 'receipt',
           // matcher: { type: 'startsWith', href: '/dashboard/settings' },
         },
         {
-          key: 'customers',
+          key: 'docu_discovery',
           title: 'Document Discovery',
           href: paths.dashboard.documentDiscovery,
           icon: 'receipt',
@@ -47,7 +46,7 @@ export const layoutConfig = {
           matcher: { type: 'startsWith', href: '/lead-gen' },
         },
         {
-          key: 'orders',
+          key: 'municipal_arhive',
           title: 'Municipal Archive',
           href: paths.dashboard.municipalArchive.main,
           icon: 'receipt',

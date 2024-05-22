@@ -1,81 +1,135 @@
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { Page as HomePage } from '@/pages/marketing/home';
-import { Page as NotFoundPage } from '@/pages/not-found';
-import { Layout as MarketingLayout } from '@/components/marketing/layout/layout';
+import { Layout as DashboardLayout } from '@/components/dashboard/layout/layout';
 
 import { route as authRoute } from './auth';
-import { route as componentsRoute } from './components';
-import { route as dashboardRoute } from './dashboard';
 
 export const routes = [
   {
     element: (
-      <MarketingLayout>
+      <DashboardLayout>
         <Outlet />
-      </MarketingLayout>
+      </DashboardLayout>
     ),
     children: [
-      { index: true, element: <HomePage /> },
       {
-        path: 'pricing',
+        path: '/overview',
         lazy: async () => {
-          const { Page } = await import('@/pages/marketing/pricing');
+          const { Page } = await import('@/pages/overview');
           return { Component: Page };
         },
       },
-      componentsRoute,
+      {
+        path: 'details/:newsSlug',
+        lazy: async () => {
+          const { Page } = await import('@/pages/details');
+          return { Component: Page };
+        },
+      },
+
+      {
+        path: 'assessment',
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const { Page } = await import('@/pages/assessment');
+              return { Component: Page };
+            },
+          },
+        ],
+      },
+      {
+        path: 'case-search',
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const { Page } = await import('@/pages/case-search');
+              return { Component: Page };
+            },
+          },
+        ],
+      },
+      {
+        path: 'document-discovery',
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const { Page } = await import('@/pages/document-discovery');
+              return { Component: Page };
+            },
+          },
+        ],
+      },
+      {
+        path: 'lead-gen',
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const { Page } = await import('@/pages/lead-gen');
+              return { Component: Page };
+            },
+          },
+          {
+            path: ':videoId',
+            lazy: async () => {
+              const { Page } = await import('@/pages/gen-details');
+              return { Component: Page };
+            },
+          },
+        ],
+      },
+      {
+        path: 'municipal-archive',
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const { Page } = await import('@/pages/municipal-archive');
+              return { Component: Page };
+            },
+          },
+          {
+            path: ':docId',
+            lazy: async () => {
+              const { Page } = await import('@/pages/municipal-details');
+              return { Component: Page };
+            },
+          },
+        ],
+      },
+      {
+        path: 'regulation-archive',
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const { Page } = await import('@/pages/regulation-archive');
+              return { Component: Page };
+            },
+          },
+          // {
+          //   path: ':fileId',
+          //   lazy: async () => {
+          //     const { Page } = await import('@/pages/dashboard/');
+          //     return { Component: Page };
+          //   },
+          // },
+        ],
+      },
+      ///separate page for analyticcs
+      // {
+      //   path: 'analytics',
+      //   lazy: async () => {
+      //     const { Page } = await import('@/pages/dashboard/analytics');
+      //     return { Component: Page };
+      //   },
+      // },
     ],
   },
-  {
-    path: 'errors',
-    children: [
-      {
-        path: 'internal-server-error',
-        lazy: async () => {
-          const { Page } = await import('@/pages/errors/internal-server-error');
-          return { Component: Page };
-        },
-      },
-      {
-        path: 'not-authorized',
-        lazy: async () => {
-          const { Page } = await import('@/pages/errors/not-authorized');
-          return { Component: Page };
-        },
-      },
-      {
-        path: 'not-found',
-        lazy: async () => {
-          const { Page } = await import('@/pages/errors/not-found');
-          return { Component: Page };
-        },
-      },
-    ],
-  },
-  {
-    path: 'checkout',
-    lazy: async () => {
-      const { Page } = await import('@/pages/checkout');
-      return { Component: Page };
-    },
-  },
-  {
-    path: 'contact',
-    lazy: async () => {
-      const { Page } = await import('@/pages/contact');
-      return { Component: Page };
-    },
-  },
-  {
-    path: 'pdf/invoices/:invoiceId',
-    lazy: async () => {
-      const { Page } = await import('@/pages/pdf/invoice');
-      return { Component: Page };
-    },
-  },
-  authRoute,
-  dashboardRoute,
-  { path: '*', element: <NotFoundPage /> },
+  // { path: '*', element: <NotFoundPage /> },
 ];

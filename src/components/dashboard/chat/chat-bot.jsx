@@ -20,7 +20,6 @@ export function ChatBot({ path }) {
 
   function getCSRFToken() {
     const cookies = document.cookie.split(';');
-
     for (let cookie of cookies) {
       cookie = cookie.trim();
 
