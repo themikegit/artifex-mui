@@ -69,7 +69,7 @@ export function MainNav({ items }) {
             spacing={2}
             sx={{ alignItems: 'center', flex: '1 1 auto', justifyContent: 'flex-end' }}
           >
-            <NotificationsButton />
+            {/* <NotificationsButton /> */}
             {/* <ContactsButton /> */}
             <Divider
               flexItem
