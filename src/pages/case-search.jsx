@@ -9,10 +9,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { config } from '@/config';
 import { Option } from '@/components/core/option';
-import { CourseCard } from '@/components/dashboard/academy/course-card';
-import { CoursesFilters } from '@/components/dashboard/academy/courses-filters';
-import { DailyProgress } from '@/components/dashboard/academy/daily-progress';
-import { Help } from '@/components/dashboard/academy/help';
+import { DocumentCard } from '@/components/document-card';
 
 const metadata = { title: `Case Search  | ${config.site.name}` };
 
@@ -170,7 +167,7 @@ export function Page() {
               {documents &&
                 documents.map((doc) => (
                   <Grid key={doc.fileName} md={4} xs={12}>
-                    <CourseCard document={doc} />
+                    <DocumentCard document={doc} />
                   </Grid>
                 ))}
             </Grid>

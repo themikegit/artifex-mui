@@ -2,26 +2,14 @@
 
 import * as React from 'react';
 import { TableContainer } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
-import LinearProgress from '@mui/material/LinearProgress';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { CheckCircle as CheckCircleIcon } from '@phosphor-icons/react/dist/ssr/CheckCircle';
-import { Clock as ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
 import { DotsThreeCircle as DotsThreeCircleIcon } from '@phosphor-icons/react/dist/ssr/DotsThreeCircle';
-import { Minus as MinusIcon } from '@phosphor-icons/react/dist/ssr/Minus';
-import { PencilSimple as PencilSimpleIcon } from '@phosphor-icons/react/dist/ssr/PencilSimple';
 
 import { paths } from '@/paths';
-import { dayjs } from '@/lib/dayjs';
 import { DataTable } from '@/components/core/data-table';
 import { RouterLink } from '@/components/core/link';
-
-import { useCustomersSelection } from './dashboard/customer/customers-selection-context';
 
 const columns = [
   {
@@ -149,7 +137,7 @@ const columns = [
 export function SepticTable({ rows }) {
   return (
     <React.Fragment>
-      <TableContainer sx={{ maxHeight: 640 }}>
+      <TableContainer sx={{ maxHeight: 840 }}>
         <DataTable stickyHeader columns={columns} rows={rows} />
         {!rows.length ? (
           <Box sx={{ p: 3 }}>

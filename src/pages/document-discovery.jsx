@@ -9,10 +9,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { config } from '@/config';
 import { Option } from '@/components/core/option';
-import { CourseCard } from '@/components/dashboard/academy/course-card';
-import { CoursesFilters } from '@/components/dashboard/academy/courses-filters';
-import { DailyProgress } from '@/components/dashboard/academy/daily-progress';
-import { Help } from '@/components/dashboard/academy/help';
+import { DocumentCard } from '@/components/document-card';
 
 const metadata = { title: `Document Discovery  | ${config.site.name}` };
 
@@ -168,15 +165,6 @@ export function Page() {
                       ))}
                     </Select>
                   </FormControl>
-                  {/* <FormControl sx={{ maxWidth: '100%', width: '240px' }}>
-                    <InputLabel>Type</InputLabel>
-                    <Select defaultValue="" fullWidth name="category">
-                      <Option value="">All available</Option>
-                      <Option value="fullstack">Fullstack</Option>
-                      <Option value="devops">DevOps</Option>
-                      <Option value="design">Design</Option>
-                    </Select>
-                  </FormControl> */}
 
                   <Button
                     disabled={isLoading}
@@ -191,27 +179,14 @@ export function Page() {
               </Card>
             </Stack>
           </Box>
-          {/* <Stack spacing={1}>
-            <Typography variant="h6">Welcome back, Sofia</Typography>
-            <Typography color="text.secondary" variant="body2">
-              Nice progress so far, keep it up!
-            </Typography>
-          </Stack> */}
-          {/* <Grid container spacing={4}>
-            <Grid md={8} xs={12}>
-              <DailyProgress timeCurrent={20} timeGoal={35} />
-            </Grid>
-            <Grid md={4} xs={12}>
-              <Help />
-            </Grid>
-          </Grid> */}
+
           <Stack spacing={4}>
             {documents && <Typography variant="h6">Results ({documents.length}) </Typography>}
             <Grid container spacing={4}>
               {documents &&
                 documents.map((doc) => (
                   <Grid key={doc.fileName} md={4} xs={12}>
-                    <CourseCard document={doc} />
+                    <DocumentCard document={doc} />
                   </Grid>
                 ))}
             </Grid>

@@ -8,7 +8,6 @@ import '@/styles/global.css';
 import { config } from '@/config';
 import { applyDefaultSettings } from '@/lib/settings/apply-default-settings';
 import { getSettings as getPersistedSettings } from '@/lib/settings/get-settings';
-import { UserProvider } from '@/contexts/auth/user-context';
 import { SettingsProvider } from '@/contexts/settings';
 import { Analytics } from '@/components/core/analytics';
 import { I18nProvider } from '@/components/core/i18n-provider';
@@ -44,15 +43,13 @@ export function Root({ children }) {
         <CityProvider selectedCity={initialCity}>
           <GenDataProvider>
             <LocalizationProvider>
-              <UserProvider>
-                <SettingsProvider settings={settings.current}>
-                  <ThemeProvider>
-                    {children}
-                    <SettingsButton />
-                    <Toaster position="bottom-right" />
-                  </ThemeProvider>
-                </SettingsProvider>
-              </UserProvider>
+              <SettingsProvider settings={settings.current}>
+                <ThemeProvider>
+                  {children}
+                  <SettingsButton />
+                  <Toaster position="bottom-right" />
+                </ThemeProvider>
+              </SettingsProvider>
             </LocalizationProvider>
           </GenDataProvider>
         </CityProvider>

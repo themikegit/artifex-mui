@@ -13,12 +13,7 @@ import { ArrowRight as ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/Arr
 import { Helmet } from 'react-helmet-async';
 
 import { config } from '@/config';
-import { paths } from '@/paths';
-import { dayjs } from '@/lib/dayjs';
-import { BreadcrumbsSeparator } from '@/components/core/breadcrumbs-separator';
-import { RouterLink } from '@/components/core/link';
-import { Newsletter } from '@/components/dashboard/blog/newsletter';
-import { PostCard } from '@/components/dashboard/blog/post-card';
+import { PostCard } from '@/components/post-card';
 
 const metadata = { title: `List | Blog | Dashboard | ${config.site.name}` };
 

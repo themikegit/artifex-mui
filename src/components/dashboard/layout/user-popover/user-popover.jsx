@@ -4,24 +4,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import { CreditCard as CreditCardIcon } from '@phosphor-icons/react/dist/ssr/CreditCard';
-import { LockKey as LockKeyIcon } from '@phosphor-icons/react/dist/ssr/LockKey';
-import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User';
 
 import { config } from '@/config';
-import { paths } from '@/paths';
-import { AuthStrategy } from '@/lib/auth/strategy';
-import { RouterLink } from '@/components/core/link';
 
-import { Auth0SignOut } from './auth0-sign-out';
-import { CognitoSignOut } from './cognito-sign-out';
 import { CustomSignOut } from './custom-sign-out';
-import { FirebaseSignOut } from './firebase-sign-out';
-import { SupabaseSignOut } from './supabase-sign-out';
 
 const user = {
   id: 'USR-000',
@@ -69,11 +57,7 @@ export function UserPopover({ anchorEl, onClose, open }) {
       </List>
       <Divider />
       <Box sx={{ p: 1 }}>
-        {config.auth.strategy === AuthStrategy.CUSTOM ? <CustomSignOut /> : null}
-        {config.auth.strategy === AuthStrategy.AUTH0 ? <Auth0SignOut /> : null}
-        {config.auth.strategy === AuthStrategy.COGNITO ? <CognitoSignOut /> : null}
-        {config.auth.strategy === AuthStrategy.FIREBASE ? <FirebaseSignOut /> : null}
-        {config.auth.strategy === AuthStrategy.SUPABASE ? <SupabaseSignOut /> : null}
+        <CustomSignOut />
       </Box>
     </Popover>
   );

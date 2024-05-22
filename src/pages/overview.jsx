@@ -1,26 +1,19 @@
 import * as React from 'react';
 import { LinearProgress } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { ArrowSquareOut as ArrowSquareOutIcon } from '@phosphor-icons/react/dist/ssr/ArrowSquareOut';
-import { Briefcase as BriefcaseIcon } from '@phosphor-icons/react/dist/ssr/Briefcase';
-import { FileCode as FileCodeIcon } from '@phosphor-icons/react/dist/ssr/FileCode';
 import { House as HouseIcon } from '@phosphor-icons/react/dist/ssr/House';
-import { Info as InfoIcon } from '@phosphor-icons/react/dist/ssr/Info';
 import { Key as KeyIcon } from '@phosphor-icons/react/dist/ssr/Key';
 import { Tag as TagIcon } from '@phosphor-icons/react/dist/ssr/Tag';
 import { Helmet } from 'react-helmet-async';
 
 import { config } from '@/config';
-import { dayjs } from '@/lib/dayjs';
 import { GenDataContext } from '@/contexts/generic-data';
-import { AppLimits } from '@/components/app-limits';
 import { ArticlesGrid } from '@/components/articles-grid';
 import { CounterWidget } from '@/components/counter-widget';
-import { Events } from '@/components/events';
 import { NewsList } from '@/components/news-list';
 import { SalesPriceAanalysis } from '@/components/sales-price-analysis';
 

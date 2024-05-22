@@ -3,8 +3,6 @@ import { Outlet } from 'react-router-dom';
 
 import { Layout as DashboardLayout } from '@/components/dashboard/layout/layout';
 
-import { route as authRoute } from './auth';
-
 export const routes = [
   {
     element: (

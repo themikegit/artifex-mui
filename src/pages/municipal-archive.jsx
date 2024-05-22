@@ -25,8 +25,8 @@ import { useSearchParams } from 'react-router-dom';
 
 import { config } from '@/config';
 import { Option } from '@/components/core/option';
-import { Events } from '@/components/events';
 import { MunicipalArchiveTable } from '@/components/municipal-archive-table';
+import { RecentDocsWidget } from '@/components/recent-docs-widget';
 
 const metadata = { title: `List | Customers | Dashboard | ${config.site.name}` };
 
@@ -174,17 +174,13 @@ export function Page() {
                 <Button onClick={getDocuments} disabled={false} variant="contained">
                   Search
                 </Button>
-
-                {/* <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                  <MagnifyingGlassIcon onClick={getDocuments} />
-                </IconButton> */}
               </Paper>
 
               {documentsResults && <MunicipalArchiveTable rows={documentsResults}></MunicipalArchiveTable>}
             </Stack>
           </Grid>
           <Grid item md={4} xs={12}>
-            {recentDoc && <Events events={recentDoc}></Events>}
+            {recentDoc && <RecentDocsWidget events={recentDoc}></RecentDocsWidget>}
           </Grid>
         </Grid>
       </Box>

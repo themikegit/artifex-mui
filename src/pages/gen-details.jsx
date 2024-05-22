@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, LinearProgress } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import Chip from '@mui/material/Chip';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -17,16 +10,10 @@ import { useParams } from 'react-router-dom';
 
 import { config } from '@/config';
 import { paths } from '@/paths';
-import { dayjs } from '@/lib/dayjs';
 import { GenDataContext } from '@/contexts/generic-data';
-import { BreadcrumbsSeparator } from '@/components/core/breadcrumbs-separator';
+import { ChatBot } from '@/components/chat-bot';
+import { Content } from '@/components/content';
 import { RouterLink } from '@/components/core/link';
-import { CommentAdd } from '@/components/dashboard/blog/comment-add';
-import { CommentBox } from '@/components/dashboard/blog/comment-box';
-import { Content } from '@/components/dashboard/blog/content';
-import { Newsletter } from '@/components/dashboard/blog/newsletter';
-import { ChatBot } from '@/components/dashboard/chat/chat-bot';
-import { MessageBox } from '@/components/dashboard/chat/message-box';
 
 const metadata = { title: `Details | Blog | Dashboard | ${config.site.name}` };
 
@@ -117,7 +104,8 @@ export function Page() {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
                   ></iframe>
-                  <div dangerouslySetInnerHTML={{ __html: genDetails.memo }} />
+                  <Content content={genDetails.memo}></Content>
+                  {/* <div dangerouslySetInnerHTML={{ __html: genDetails.memo }} /> */}
                 </Stack>{' '}
               </Box>
             </Grid>
