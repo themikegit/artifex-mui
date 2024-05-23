@@ -1,14 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Fab,
-  LinearProgress,
-  Modal,
-  SpeedDial,
-  SpeedDialAction,
-  SpeedDialIcon,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Fab, LinearProgress, Modal, SpeedDial, SpeedDialAction } from '@mui/material';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import { Box, width } from '@mui/system';
@@ -18,15 +9,7 @@ import { PaperPlaneTilt as PaperPlaneTiltIcon } from '@phosphor-icons/react/dist
 import { StackSimple as StackSimpleIcon } from '@phosphor-icons/react/dist/ssr/StackSimple';
 import { TreeEvergreen as TreeEvergreenIcon } from '@phosphor-icons/react/dist/ssr/TreeEvergreen';
 import { Helmet } from 'react-helmet-async';
-import Map, {
-  FullscreenControl,
-  Layer,
-  Marker,
-  NavigationControl,
-  ScaleControl,
-  Source,
-  useControl,
-} from 'react-map-gl';
+import Map, { Layer, Marker, Source } from 'react-map-gl';
 import { useNavigate } from 'react-router-dom';
 
 import { config } from '@/config';
@@ -38,7 +21,7 @@ import Pin from '@/components/pin';
 import { TaxSim } from '@/components/tax-sim';
 import { WellsData } from '@/components/wells-data';
 
-const metadata = { title: `Crypto | Dashboard | ${config.site.name}` };
+const metadata = { title: `Assessment | Tools | ${config.site.name}` };
 
 // @todo set layer icon to env or properties. this is for speed dial, so user knows what soruce is used
 
@@ -70,7 +53,7 @@ export function Page() {
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
 
   const { selectedCity } = React.useContext(CityContext);
-  const { setmapCoorContext, mapCoor } = React.useContext(GenDataContext);
+  const { setmapCoor } = React.useContext(GenDataContext);
 
   const getPropertiesMapSource = () => {
     setLoading(true);
@@ -212,14 +195,14 @@ export function Page() {
     setCursor('crosshair');
     if (features && features.length > 0) {
       const drawnPolygonGeometry = features[0].geometry;
-      setmapCoorContext(drawnPolygonGeometry);
+      setmapCoor(drawnPolygonGeometry);
       setOpen(true);
       // navigate('/assessment/details');
     }
   }, []);
 
   const onDelete = useCallback((e) => {
-    setmapCoorContext(null);
+    setmapCoor(null);
     // setFeatures((currFeatures) => {
     //   const newFeatures = { ...currFeatures };
     //   for (const f of e.features) {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LinearProgress, Skeleton, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { LinearProgress, Skeleton, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -8,14 +8,10 @@ import { CalendarBlank as CalendarIcon } from '@phosphor-icons/react/dist/ssr/Ca
 import { House as HouseIcon } from '@phosphor-icons/react/dist/ssr/House';
 import { Tag as TagIcon } from '@phosphor-icons/react/dist/ssr/Tag';
 import bbox from '@turf/bbox';
-import { Helmet } from 'react-helmet-async';
 
-import { config } from '@/config';
-import { paths } from '@/paths';
 import { GenDataContext } from '@/contexts/generic-data';
-import { RouterLink } from '@/components/core/link';
 import { CounterWidget } from '@/components/counter-widget';
-import { DonutChart } from '@/components/devices';
+import { DonutChart } from '@/components/donut-chart';
 import { Summary } from '@/components/summary';
 import { TaxesChart } from '@/components/taxes-chart';
 import { VoterBreakdownChart } from '@/components/voter-breakdown-chart';
@@ -23,8 +19,6 @@ import { VoterBreakdownChart } from '@/components/voter-breakdown-chart';
 import { PropertiesTable } from './properties-table';
 import { PropertyDistributionChart } from './property-distribution-chart';
 import { ZoningCasesTable } from './zoning-cases-table';
-
-const metadata = { title: `Analytics | Dashboard | ${config.site.name}` };
 
 export function BoundaryAnalytics() {
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
@@ -266,9 +260,6 @@ export function BoundaryAnalytics() {
 
   return (
     <React.Fragment>
-      <Helmet>
-        <title>{metadata.title}</title>
-      </Helmet>
       <Box
         style={{ width: '75vw', padding: '25px', marginTop: '20px' }}
         sx={{
@@ -353,20 +344,56 @@ export function BoundaryAnalytics() {
               <Grid xs={12}>{yearsBuilt && <Summary data={yearsBuilt} />}</Grid>
               <Grid lg={3} xs={6}>
                 {avgAssessmentComparasion && (
-                  <DonutChart currency={true} title="Average Assessment Comparasion" data={avgAssessmentComparasion} />
+                  <>
+                    <DonutChart
+                      tooltip=" This metric compares average property assessment values of
+                    primary and secondary/non-primary residences, using voter
+                    registration data to identify primary residences. Properties
+                    without registered voters are considered secondary or
+                    non-primary."
+                      currency={true}
+                      title="Average Assessment Comparasion"
+                      data={avgAssessmentComparasion}
+                    />
+                  </>
                 )}
               </Grid>
               <Grid lg={3} xs={6}>
                 {cumulativeAssessmentBreakDown && (
-                  <DonutChart title="Cumulative Assessment Breakdown" data={cumulativeAssessmentBreakDown} />
+                  <DonutChart
+                    tooltip=" This metric presents the cumulative property assessment values
+                  for primary and secondary/non-primary residences, using voter
+                  registration data as a proxy to identify primary residences.
+                  It shows the total assessed value contributed by each category
+                  within the selected neighborhood."
+                    title="Cumulative Assessment Breakdown"
+                    data={cumulativeAssessmentBreakDown}
+                  />
                 )}
               </Grid>
               <Grid lg={3} xs={6}>
-                {lotRatio && <DonutChart title="Residence Type Land Utilization" data={lotRatio} />}
+                {lotRatio && (
+                  <DonutChart
+                    tooltip="This metric compares the ratio between primary and
+                  secondary/non-primary residences, using voter registration
+                  data as a proxy to identify primary residences. It indicates
+                  the intensity of land use and development patterns for
+                  properties based on their occupancy status."
+                    title="Residence Type Land Utilization"
+                    data={lotRatio}
+                  />
+                )}
               </Grid>
               <Grid lg={3} xs={6}>
                 {propertiesType && (
-                  <PropertyDistributionChart title="Property Type Distribution" data={propertiesType} />
+                  <PropertyDistributionChart
+                    tooltip="This metric provides a percentage breakdown of property types
+                  within the selected neighborhood, showcasing the housing stock
+                  composition. It helps characterize the neighborhood's housing
+                  mix and development patterns."
+                    title="Property Type Distribution"
+                    data={propertiesType}
+                  />
                 )}
               </Grid>
               <Grid lg={6} xs={12}>

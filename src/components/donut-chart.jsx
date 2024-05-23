@@ -1,29 +1,34 @@
 'use client';
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+import { Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Devices as DevicesIcon } from '@phosphor-icons/react/dist/ssr/Devices';
-import { DotsThree as DotsThreeIcon } from '@phosphor-icons/react/dist/ssr/DotsThree';
-import { Cell, Pie, PieChart, Tooltip } from 'recharts';
+import { Info as InfoIcon } from '@phosphor-icons/react/dist/ssr/Info';
+import { Cell, Pie, PieChart } from 'recharts';
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-export function DonutChart({ data, title, currency = false }) {
+export function DonutChart({ data, title, currency = false, tooltip = 'empty' }) {
   const chartSize = 200;
   const chartTickness = 30;
 
   return (
     <Card>
-      <CardHeader title={title} />
+      <CardHeader
+        avatar={
+          <Tooltip title={tooltip}>
+            <InfoIcon fontSize="var(--Icon-fontSize)" />
+          </Tooltip>
+        }
+        title={title}
+      />
       <CardContent>
         <Stack divider={<Divider />} spacing={3}>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>

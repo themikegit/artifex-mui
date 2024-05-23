@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { Tooltip } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -11,29 +12,23 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Devices as DevicesIcon } from '@phosphor-icons/react/dist/ssr/Devices';
-import { DotsThree as DotsThreeIcon } from '@phosphor-icons/react/dist/ssr/DotsThree';
-import { Cell, Pie, PieChart, Tooltip } from 'recharts';
+import { Info as InfoIcon } from '@phosphor-icons/react/dist/ssr/Info';
+import { Cell, Pie, PieChart } from 'recharts';
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-export function PropertyDistributionChart({ data, title, currency = false }) {
+export function PropertyDistributionChart({ data, title, currency = false, tooltip }) {
   const chartSize = 200;
   const chartTickness = 30;
 
   return (
     <Card>
       <CardHeader
-        // action={
-        //   <IconButton>
-        //     <DotsThreeIcon weight="bold" />
-        //   </IconButton>
-        // }
-        // avatar={
-        //   <Avatar>
-        //     <DevicesIcon fontSize="var(--Icon-fontSize)" />
-        //   </Avatar>
-        // }
+        avatar={
+          <Tooltip title={tooltip}>
+            <InfoIcon fontSize="var(--Icon-fontSize)" />
+          </Tooltip>
+        }
         title={title}
       />
       <CardContent>

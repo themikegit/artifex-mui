@@ -13,6 +13,8 @@ export const GenDataProvider = ({ children }) => {
       value={{
         articles,
         setArticles,
+        mapCoor,
+        setmapCoor,
       }}
     >
       {children}
