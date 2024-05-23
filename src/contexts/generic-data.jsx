@@ -1,34 +1,23 @@
 'use client';
 
-import * as React from 'react';
+import React, { useContext, useState } from 'react';
 
-export const GenDataContext = React.createContext({
-  genericData: '',
-  setgenericDataContext: () => {},
-  mapCoor: '',
-  setmapCoorContext: () => {},
-});
+export const GenDataContext = React.createContext({});
 
-export function GenDataProvider({ children }) {
-  const [genericData, setgenericData] = React.useState();
-  const [mapCoor, setmapCoor] = React.useState();
+export const GenDataProvider = ({ children }) => {
+  const [articles, setArticles] = useState(['initial']);
+  const [mapCoor, setmapCoor] = useState();
 
   return (
     <GenDataContext.Provider
       value={{
-        genericData: genericData,
-        setgenericDataContext: (data) => {
-          setgenericData(data);
-        },
-        mapCoor: mapCoor,
-        setmapCoorContext: (data) => {
-          setmapCoor(data);
-        },
+        articles,
+        setArticles,
       }}
     >
       {children}
     </GenDataContext.Provider>
   );
-}
+};
 
 export const GenDataConsumer = GenDataContext.Consumer;

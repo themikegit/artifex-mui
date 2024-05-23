@@ -46,7 +46,7 @@ export function Root({ children }) {
               <SettingsProvider settings={settings.current}>
                 <ThemeProvider>
                   {children}
-                  <SettingsButton />
+                  {/* <SettingsButton /> */}
                   <Toaster position="bottom-right" />
                 </ThemeProvider>
               </SettingsProvider>

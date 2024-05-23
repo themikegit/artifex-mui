@@ -16,12 +16,7 @@ import { RouterLink } from '@/components/core/link';
 export function PostCard({ post }) {
   return (
     <Card>
-      <CardMedia
-        component={RouterLink}
-        href={paths.dashboard.overview.details(post.slug)}
-        image={post.media}
-        sx={{ height: '100px' }}
-      />
+      <CardMedia component={RouterLink} href={''} image={post.media} sx={{ height: '100px' }} />
       <CardContent>
         <Stack spacing={2}>
           <div>
@@ -48,9 +43,9 @@ export function PostCard({ post }) {
           <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
             {/* <Avatar src={post.author.avatar} /> */}
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flex: '1 1 auto', flexWrap: 'wrap' }}>
-              <Typography sx={{ flex: '1 1 auto' }} variant="subtitle2">
+              {/* <Typography sx={{ flex: '1 1 auto' }} variant="subtitle2">
                 By {post.source} • {dayjs(post.date).format('MMM D, YYYY')}
-              </Typography>
+              </Typography> */}
               <Typography color="text.secondary" sx={{ whiteSpace: 'nowrap' }} variant="body2">
                 {/* {post.readTime} read */}
               </Typography>

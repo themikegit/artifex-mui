@@ -19,9 +19,16 @@ export const routes = [
         },
       },
       {
-        path: 'details/:newsSlug',
+        path: 'details/:articleId',
         lazy: async () => {
-          const { Page } = await import('@/pages/details');
+          const { Page } = await import('@/pages/news-details');
+          return { Component: Page };
+        },
+      },
+      {
+        path: '/news-all',
+        lazy: async () => {
+          const { Page } = await import('@/pages/news-all');
           return { Component: Page };
         },
       },

@@ -2,7 +2,8 @@ export const paths = {
   dashboard: {
     overview: {
       main: '/overview',
-      details: (newsSlug) => `/details/${newsSlug}`,
+      details: (articleId) => `/details/${articleId}`,
+      all: '/news-all',
     },
     assessment: {
       main: '/assessment',

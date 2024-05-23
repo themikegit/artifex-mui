@@ -20,7 +20,7 @@ import { SalesPriceAanalysis } from '@/components/sales-price-analysis';
 const metadata = { title: `Overview | Dashboard | ${config.site.name}` };
 
 export function Page() {
-  const { setgenericDataContext } = React.useContext(GenDataContext);
+  const { setArticles } = React.useContext(GenDataContext);
 
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
   ///take from context
@@ -92,7 +92,7 @@ export function Page() {
         setTownSales(tSales);
         setIsLoading(false);
         ///set context
-        setgenericDataContext(transformedNews);
+        setArticles(locNews);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -201,7 +201,7 @@ export function Page() {
               <SalesPriceAanalysis data={townSales} />
             </Grid>
             <Grid md={4} xs={12}>
-              <NewsList news={localNews} />
+              <NewsList news={localNews.slice(0, 5)} />
             </Grid>
             <Grid md={12} xs={12}>
               <ArticlesGrid articles={townSummary} />
