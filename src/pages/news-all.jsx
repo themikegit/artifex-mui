@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Card, CardContent, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ArrowLeft as ArrowLeftIcon } from '@phosphor-icons/react/dist/ssr/ArrowLeft';
+import dayjs from 'dayjs';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 
@@ -15,7 +17,7 @@ import { Content } from '@/components/content';
 import { RouterLink } from '@/components/core/link';
 import { NewsList } from '@/components/news-list';
 
-const metadata = { title: `Details | Dashboard | ${config.site.name}` };
+const metadata = { title: `Overview | All news | ${config.site.name}` };
 
 export function Page() {
   const { articles } = React.useContext(GenDataContext);
@@ -50,7 +52,38 @@ export function Page() {
             <ArrowLeftIcon fontSize="var(--icon-fontSize-md)" />
             Overview
           </Link>
-          {selectedArticles && <NewsList news={selectedArticles} />}
+
+          {selectedArticles && (
+            <Grid container spacing={4}>
+              {selectedArticles.map((n) => (
+                <Grid item md={4} xs={12}>
+                  <Card variant="outlined">
+                    <CardContent>
+                      <Stack spacing={1}>
+                        <Link
+                          color="text.primary"
+                          component={RouterLink}
+                          href={paths.dashboard.overview.details(n.id)}
+                          underline="none"
+                          variant="subtitle1"
+                        >
+                          {n.headline}
+                        </Link>
+                        <Stack direction="column" spacing={1}>
+                          <Typography color="text.secondary" noWrap variant="body2">
+                            {n.summary}
+                          </Typography>
+                          <Typography color="text.secondary" sx={{ whiteSpace: 'nowrap' }} variant="caption">
+                            {dayjs(n.date).fromNow()}
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </Stack>
       </Box>
     </React.Fragment>

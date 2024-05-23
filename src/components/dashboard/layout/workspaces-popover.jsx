@@ -17,16 +17,16 @@ export const workspaces = [
     ini_lon: '-70.48',
     ini_lat: '41.65',
   },
-  {
-    name: 'Tulsa',
-    code: 'OK',
-    min_lat: '35.9695',
-    min_lon: '-96.9238',
-    max_lat: '36.2528',
-    max_lon: '-95.8141',
-    ini_lon: '-95.9928',
-    ini_lat: '36.1540',
-  },
+  // {
+  //   name: 'Tulsa',
+  //   code: 'OK',
+  //   min_lat: '35.9695',
+  //   min_lon: '-96.9238',
+  //   max_lat: '36.2528',
+  //   max_lon: '-95.8141',
+  //   ini_lon: '-95.9928',
+  //   ini_lat: '36.1540',
+  // },
 ];
 
 export function WorkspacesPopover({ anchorEl, onChange, onClose, open = false }) {
