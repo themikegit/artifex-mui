@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Helmet } from 'react-helmet-async';
 import { useSearchParams } from 'react-router-dom';
 
 import { config } from '@/config';
 import { SepticTable } from '@/components/septic-table';
 
-const metadata = { title: `List | Customers | Dashboard | ${config.site.name}` };
+const metadata = { title: `Lead Gen | Tools| ${config.site.name}` };
 
 export function Page() {
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
@@ -50,11 +47,9 @@ export function Page() {
       >
         <Stack spacing={4}>
           <Card>
-            {/* <CustomersFilters filters={{ email, phone, status }} sortDir={sortDir} /> */}
             <Divider />
             <Box sx={{ overflowX: 'auto' }}>{septicLead && <SepticTable rows={septicLead} />}</Box>
             <Divider />
-            {/* <CustomersPagination count={filteredCustomers.length + 100} page={0} /> */}
           </Card>
         </Stack>
       </Box>

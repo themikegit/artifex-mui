@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -24,6 +24,7 @@ import { Helmet } from 'react-helmet-async';
 import { useSearchParams } from 'react-router-dom';
 
 import { config } from '@/config';
+import { GenDataContext } from '@/contexts/generic-data';
 import { Option } from '@/components/core/option';
 import { MunicipalArchiveTable } from '@/components/municipal-archive-table';
 import { RecentDocsWidget } from '@/components/recent-docs-widget';
@@ -46,10 +47,12 @@ export function Page() {
   const baseUrl = import.meta.env.VITE_SERVER_HOST;
   const [septicLead, setsepticLeads] = useState(null);
   const [type, setType] = useState('meeting');
-  const [documentsResults, setdocumentsResults] = useState(false);
+  const [documentsResults, setdocumentsResults] = useState();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTown, setselectedTown] = useState('Sapulpa');
+
+  const { setsearchResults, searchResults } = useContext(GenDataContext);
 
   const handleChange = (event, type) => {
     setType(type);
@@ -66,6 +69,7 @@ export function Page() {
       })
       .then((data) => {
         setdocumentsResults(data);
+        setsearchResults(data);
         setisLoading(false);
       })
       .catch((error) => {
@@ -97,7 +101,6 @@ export function Page() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setrecentDoc(data);
       })
       .catch((error) => {

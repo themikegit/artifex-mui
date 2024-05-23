@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 export const GenDataContext = React.createContext({});
 
 export const GenDataProvider = ({ children }) => {
+  const [searchResults, setsearchResults] = useState();
   const [articles, setArticles] = useState(['initial']);
   const [mapCoor, setmapCoor] = useState();
 
@@ -15,6 +16,8 @@ export const GenDataProvider = ({ children }) => {
         setArticles,
         mapCoor,
         setmapCoor,
+        searchResults,
+        setsearchResults,
       }}
     >
       {children}

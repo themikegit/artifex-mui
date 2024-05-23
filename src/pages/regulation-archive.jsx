@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Helmet } from 'react-helmet-async';
 import { useSearchParams } from 'react-router-dom';
 
 import { config } from '@/config';
 import { dayjs } from '@/lib/dayjs';
-import { CustomersFilters } from '@/components/dashboard/customer/customers-filters';
-import { CustomersPagination } from '@/components/dashboard/customer/customers-pagination';
-import { CustomersSelectionProvider } from '@/components/dashboard/customer/customers-selection-context';
-import { CustomersTable } from '@/components/dashboard/customer/customers-table';
-
-import { SepticTable } from '../components/septic-table';
 
 const metadata = { title: `List | Customers | Dashboard | ${config.site.name}` };
 
@@ -139,15 +130,6 @@ export function Page() {
               </Button>
             </Box>
           </Stack> */}
-          <CustomersSelectionProvider customers={filteredCustomers}>
-            <Card>
-              {/* <CustomersFilters filters={{ email, phone, status }} sortDir={sortDir} /> */}
-              <Divider />
-              {/* <Box sx={{ overflowX: 'auto' }}>{septicLead && <SepticTable rows={septicLead} />}</Box> */}
-              <Divider />
-              {/* <CustomersPagination count={filteredCustomers.length + 100} page={0} /> */}
-            </Card>
-          </CustomersSelectionProvider>
         </Stack>
       </Box>
     </React.Fragment>
