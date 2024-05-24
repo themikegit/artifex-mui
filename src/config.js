@@ -5,9 +5,9 @@ export const config = {
   site: {
     name: 'ArtifexAI',
     description: '',
-    colorScheme: 'light',
+    colorScheme: 'dark',
     themeColor: '#090a0b',
-    primaryColor: 'neonBlue',
+    primaryColor: 'chateauGreen',
     url: getSiteURL(),
     version: import.meta.env.VITE_SITE_VERSION || '0.0.0',
   },
